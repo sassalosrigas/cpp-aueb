@@ -15,6 +15,9 @@ struct GameState
 	float m_player_x = m_canvas_width / 2.0f;
 	float m_player_y = m_canvas_height / 2.0f;
 	float m_player_size = 1.0f;
+
+	float m_global_offset_x = 0.0f;
+	float m_global_offset_y = 0.0f;
 };
 
 GameState state;
@@ -34,16 +37,30 @@ void init()
 
 void draw() 
 {
-	graphics::drawRect(state.m_canvas_width / 2.0f, state.m_canvas_height / 2.0f, state.m_canvas_width, state.m_canvas_height, state.m_brush_background);
+	graphics::drawRect(state.m_canvas_width / 2.0f + state.m_global_offset_x, state.m_canvas_height / 2.0f + state.m_global_offset_y, state.m_canvas_width, state.m_canvas_height, state.m_brush_background);
 
-	graphics::drawRect(state.m_player_x, state.m_player_y, state.m_player_size, state.m_player_size, state.m_brush_player);
+	graphics::drawRect(state.m_canvas_width / 2.0f, state.m_canvas_height / 2.0f, state.m_player_size, state.m_player_size, state.m_brush_player);
 }
 
 void update(float ms) 
 {
-	float p = 0.5f + fabs(sin(graphics::getGlobalTime() / 1000.0f)) / 2.0f;
+	float time = ms / 1000.0f;
+	const float v = 10.0f;
 
+	float p = 0.5f + fabs(sin(graphics::getGlobalTime() / 500.0f)) / 2.0f;
 	SETCOLOR(state.m_brush_background.fill_color, p, p, p);
+
+	if (graphics::getKeyState(graphics::SCANCODE_A))
+		state.m_player_x -= v * time;
+	if (graphics::getKeyState(graphics::SCANCODE_D))
+		state.m_player_x += v * time;
+	if (graphics::getKeyState(graphics::SCANCODE_W))
+		state.m_player_y -= v * time;
+	if (graphics::getKeyState(graphics::SCANCODE_S))
+		state.m_player_y += v * time;
+
+	state.m_global_offset_x = state.m_canvas_width / 2.0f - state.m_player_x;
+	state.m_global_offset_y = state.m_canvas_height / 2.0f - state.m_player_y;
 }
 
 int main(int argc, char** argv) 
