@@ -134,9 +134,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gameobject.cpp" />
+    <ClCompile Include="gamestate.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gameobject.h" />
+    <ClInclude Include="gamestate.h" />
+    <ClInclude Include="level.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

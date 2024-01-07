@@ -1,66 +1,19 @@
 #include "sgg/graphics.h"
-#include <stdio.h>
 #include "util.h"
-#include <string>
-
-struct GameState
-{
-	std::string m_asset_path = "assets\\";
-	float m_canvas_width = 8.0f;
-	float m_canvas_height = 8.0f;
-
-	graphics::Brush m_brush_background;
-	graphics::Brush m_brush_player;
-
-	float m_player_x = m_canvas_width / 2.0f;
-	float m_player_y = m_canvas_height / 2.0f;
-	float m_player_size = 1.0f;
-
-	float m_global_offset_x = 0.0f;
-	float m_global_offset_y = 0.0f;
-};
-
-GameState state;
+#include "gamestate.h"
 
 void init()
 {
-	SETCOLOR(state.m_brush_player.fill_color, 1.0f, 1.0f, 1.0f);
-	state.m_brush_player.fill_opacity = 1.0f;
-	state.m_brush_player.outline_opacity = 0.0f;
-	state.m_brush_player.texture = state.m_asset_path + "player.png";
-
-	SETCOLOR(state.m_brush_background.fill_color, 1.0f, 1.0f, 1.0f);
-	state.m_brush_background.outline_opacity = 0.0f;
-	state.m_brush_background.texture = state.m_asset_path + "background.png";
-	printf("%s\n", state.m_brush_background.texture.c_str());
+	GameState::getInstance()->init();
 }
 
 void draw() 
 {
-	graphics::drawRect(state.m_canvas_width / 2.0f + state.m_global_offset_x, state.m_canvas_height / 2.0f + state.m_global_offset_y, state.m_canvas_width, state.m_canvas_height, state.m_brush_background);
-
-	graphics::drawRect(state.m_canvas_width / 2.0f, state.m_canvas_height / 2.0f, state.m_player_size, state.m_player_size, state.m_brush_player);
-}
+	GameState::getInstance()->draw();
 
 void update(float ms) 
 {
-	float time = ms / 1000.0f;
-	const float v = 10.0f;
-
-	float p = 0.5f + fabs(sin(graphics::getGlobalTime() / 500.0f)) / 2.0f;
-	SETCOLOR(state.m_brush_background.fill_color, p, p, p);
-
-	if (graphics::getKeyState(graphics::SCANCODE_A))
-		state.m_player_x -= v * time;
-	if (graphics::getKeyState(graphics::SCANCODE_D))
-		state.m_player_x += v * time;
-	if (graphics::getKeyState(graphics::SCANCODE_W))
-		state.m_player_y -= v * time;
-	if (graphics::getKeyState(graphics::SCANCODE_S))
-		state.m_player_y += v * time;
-
-	state.m_global_offset_x = state.m_canvas_width / 2.0f - state.m_player_x;
-	state.m_global_offset_y = state.m_canvas_height / 2.0f - state.m_player_y;
+	GameState::getInstance()->update(ms);
 }
 
 int main(int argc, char** argv) 
@@ -72,7 +25,8 @@ int main(int argc, char** argv)
 	graphics::setDrawFunction(draw);
 	graphics::setUpdateFunction(update);
 
-	graphics::setCanvasSize(state.m_canvas_width, state.m_canvas_height);
+	graphics::setCanvasSize(GameState::getInstance()->getCanvasWidth(), 
+							GameState::getInstance()->getCanvasHeight());
 	graphics::setCanvasScaleMode(graphics::CANVAS_SCALE_FIT);
 
 	graphics::startMessageLoop();
