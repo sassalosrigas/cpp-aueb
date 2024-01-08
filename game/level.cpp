@@ -9,9 +9,12 @@ void Level::drawBlock(int i)
 	Box& box = m_blocks[i];
 	float x = box.m_pos_x - m_state->m_global_offset_x;
 	float y = box.m_pos_y - m_state->m_global_offset_y;
+	m_brush_block.texture = m_state->getFullAssetPath(m_block_names[i]);
 
 	graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block);
 
+	if (m_state->m_debug_mode)
+		graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block_debug);
 }
 
 void Level::update(float ms)
