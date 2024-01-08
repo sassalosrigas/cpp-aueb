@@ -13,8 +13,8 @@ private:
 
 	GameState();
 
-	class player* m_player = 0;
-	class level* m_current_level = 0;
+	class Player* m_player = 0;
+	class Level* m_current_level = 0;
 	 
 public:
 	float m_global_offset_x = 0.0f;
@@ -33,4 +33,6 @@ public:
 
 	std::string getAssetPath();
 	std::string getFullAssetPath(std::string asset);
+
+	class Player* getPlayer() { return m_player; }
 };

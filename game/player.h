@@ -11,7 +11,7 @@ class Player : public GameObject, public Box
 public:
 	Player(std::string name) : GameObject(name) {}
 
-	void init() {} override;
-	void draw() {} override;
-	void update(float ms) {} override;
+	void init() override;
+	void draw() override;
+	void update(float ms) override;
 };

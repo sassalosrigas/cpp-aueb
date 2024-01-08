@@ -10,8 +10,9 @@ void init()
 void draw() 
 {
 	GameState::getInstance()->draw();
+}
 
-void update(float ms) 
+void update(float ms)
 {
 	GameState::getInstance()->update(ms);
 }
