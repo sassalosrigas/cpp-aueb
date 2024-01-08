@@ -32,5 +32,5 @@ public:
 	float getCanvasHeight() { return m_canvas_height; }
 
 	std::string getAssetPath();
-	std::string getAssetPath(std::string asset);
+	std::string getFullAssetPath(std::string asset);
 };

@@ -33,7 +33,7 @@ std::string GameState::getAssetPath()
 	return m_asset_path;
 }
 
-std::string GameState::getAssetPath(std::string asset)
+std::string GameState::getFullAssetPath(std::string asset)
 {
 	return m_asset_path + asset;
 }
