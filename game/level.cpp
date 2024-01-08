@@ -3,6 +3,16 @@
 #include "player.h"
 #include <sgg/graphics.h>
 
+void Level::drawBlock(int i)
+{
+	Box& box = m_blocks[i];
+	float x = box.m_pos_x - m_state->m_global_offset_x;
+	float y = box.m_pos_y - m_state->m_global_offset_y;
+
+	graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block);
+
+}
+
 void Level::update(float ms)
 {
 	if (m_state->getPlayer()->isActive())
@@ -19,7 +29,14 @@ void Level::draw()
 	float offset_x = m_state->m_global_offset_x + w / 2.0f;
 	float offset_y = m_state->m_global_offset_y + h / 2.0f;
 
+	//draw background
 	graphics::drawRect(offset_x, offset_y, 2.0f * w, 4.0f * w, m_brush_background);
+
+	//draw blocks
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		drawBlock(i);
+	}
 
 	if (m_state->getPlayer()->isActive())
 		m_state->getPlayer()->draw();

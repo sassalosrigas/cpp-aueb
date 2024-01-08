@@ -21,6 +21,8 @@ class Level : public GameObject
 	graphics::Brush m_brush_block;
 	graphics::Brush m_brush_block_debug;
 
+	void drawBlock(int i);
+
 public:
 	void update(float ms) override;
 	void draw() override;
