@@ -40,7 +40,10 @@ void Player::init()
 void Player::draw()
 {
 	graphics::drawRect(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.5f, 1.0f, 1.0f, m_brush_player);
-
+	if (m_state->m_debug_mode) {
+		debugDraw();
+	}
+	
 }
 
 void Player::debugDraw() {
