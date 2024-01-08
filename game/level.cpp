@@ -53,15 +53,15 @@ void Level::init()
 	m_blocks.push_back(Box(3*m_block_size, 2*m_block_size, m_block_size, m_block_size));
 	m_blocks.push_back(Box(4*m_block_size, 3*m_block_size, m_block_size, m_block_size));
 
-	m_block_names.push_back("Block0");
-	m_block_names.push_back("Block1");
-	m_block_names.push_back("Block2");
-	m_block_names.push_back("Block3");
-	m_block_names.push_back("Block4");
-	m_block_names.push_back("Block5");
-	m_block_names.push_back("Block6");
-	m_block_names.push_back("Block7");
-	m_block_names.push_back("Block8");
+	m_block_names.push_back("block.png");
+	m_block_names.push_back("block.png");
+	m_block_names.push_back("block.png");
+	m_block_names.push_back("block.png");
+	m_block_names.push_back("block.png");
+	m_block_names.push_back("block.png");
+	m_block_names.push_back("block.png");
+	m_block_names.push_back("block.png");
+	m_block_names.push_back("block.png");
 
 
 }
