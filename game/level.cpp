@@ -11,10 +11,39 @@ void Level::drawBlock(int i)
 	float y = box.m_pos_y - m_state->m_global_offset_y;
 	m_brush_block.texture = m_state->getFullAssetPath(m_block_names[i]);
 
-	graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block);
+	graphics::drawRect(x, y, 2.0f*m_block_size, 2.0f*m_block_size, m_brush_block);
 
 	if (m_state->m_debug_mode)
 		graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block_debug);
+}
+
+void Level::checkCollisions()
+{
+	for (int i = 0; i < m_blocks.size(); i++)
+	{
+		Box& box = m_blocks[i];
+		if (box.m_pos_x < m_state->getPlayer()->m_pos_x + m_state->getPlayer()->m_width &&
+			box.m_pos_x + box.m_width > m_state->getPlayer()->m_pos_x &&
+			box.m_pos_y < m_state->getPlayer()->m_pos_y + m_state->getPlayer()->m_height &&
+			box.m_pos_y + box.m_height > m_state->getPlayer()->m_pos_y)
+		{
+			// collision detected!
+			//std::cout << "collision detected!" << std::endl;
+			//std::cout << "box.m_pos_x: " << box.m_pos_x << std::endl;
+			//std::cout << "box.m_pos_y: " << box.m_pos_y << std::endl;
+			//std::cout << "box.m_width: " << box.m_width << std::endl;
+			//std::cout << "box.m_height: " << box.m_height << std::endl;
+			//std::cout << "m_state->getPlayer()->m_pos_x: " << m_state->getPlayer()->m_pos_x << std::endl;
+			//std::cout << "m_state->getPlayer()->m_pos_y: " << m_state->getPlayer()->m_pos_y << std::endl;
+			//std::cout << "m_state->getPlayer()->m_width: " << m_state->getPlayer()->m_width << std::endl;
+			//std::cout << "m_state->getPlayer()->m_height: " << m_state->getPlayer()->m_height << std::endl;
+			//std::cout << "m_state->getPlayer()->m_velocity_x: " << m_state->getPlayer()->m_velocity_x << std::endl;
+			//std::cout << "m_state->getPlayer()->m_velocity_y: " << m_state->getPlayer()->m_velocity_y << std::endl;
+			//std::cout << "m_state->getPlayer()->m_acceleration_x: " << m_state->getPlayer()->m_acceleration_x << std::endl;
+			//std::cout << "m_state->getPlayer()->m_acceleration_y: " << m_state->getPlayer()->m_acceleration_y << std::endl;
+			//std::cout << "m_state->getPlayer	
+		}
+	}
 }
 
 void Level::update(float ms)
@@ -30,8 +59,8 @@ void Level::draw()
 	float w = m_state->getCanvasWidth();
 	float h = m_state->getCanvasHeight();
 
-	float offset_x = m_state->m_global_offset_x + w / 2.0f;
-	float offset_y = m_state->m_global_offset_y + h / 2.0f;
+	float offset_x = m_state->m_global_offset_x / 2.0f + w / 2.0f;
+	float offset_y = m_state->m_global_offset_y / 2.0f + h / 2.0f;
 
 	//draw background
 	graphics::drawRect(offset_x, offset_y, 2.0f * w, 4.0f * w, m_brush_background);

@@ -23,6 +23,8 @@ class Level : public GameObject
 
 	void drawBlock(int i);
 
+	void checkCollisions();
+
 public:
 	void update(float ms) override;
 	void draw() override;
