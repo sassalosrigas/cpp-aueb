@@ -2,6 +2,7 @@
 #include "gamestate.h"
 #include "player.h"
 #include <sgg/graphics.h>
+#include "util.h"
 
 void Level::drawBlock(int i)
 {
@@ -79,6 +80,11 @@ void Level::init()
 	m_block_names.push_back("block.png");
 	m_block_names.push_back("block.png");
 	m_block_names.push_back("block.png");
+
+	m_brush_block.outline_opacity = 0.0f;
+	m_brush_block_debug.fill_opacity = 0.1f;
+	SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
+	SETCOLOR(m_brush_block.outline_color, 0.3f, 1.0f, 0.2f);
 
 
 }
