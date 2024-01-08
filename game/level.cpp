@@ -11,7 +11,7 @@ void Level::drawBlock(int i)
 	float y = box.m_pos_y - m_state->m_global_offset_y;
 	m_brush_block.texture = m_state->getFullAssetPath(m_block_names[i]);
 
-	graphics::drawRect(x, y, 2.0f*m_block_size, 2.0f*m_block_size, m_brush_block);
+	graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block);
 
 	if (m_state->m_debug_mode)
 		graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block_debug);
@@ -19,30 +19,11 @@ void Level::drawBlock(int i)
 
 void Level::checkCollisions()
 {
-	for (int i = 0; i < m_blocks.size(); i++)
+	for (auto& box : m_blocks)
 	{
-		Box& box = m_blocks[i];
-		if (box.m_pos_x < m_state->getPlayer()->m_pos_x + m_state->getPlayer()->m_width &&
-			box.m_pos_x + box.m_width > m_state->getPlayer()->m_pos_x &&
-			box.m_pos_y < m_state->getPlayer()->m_pos_y + m_state->getPlayer()->m_height &&
-			box.m_pos_y + box.m_height > m_state->getPlayer()->m_pos_y)
-		{
-			// collision detected!
-			//std::cout << "collision detected!" << std::endl;
-			//std::cout << "box.m_pos_x: " << box.m_pos_x << std::endl;
-			//std::cout << "box.m_pos_y: " << box.m_pos_y << std::endl;
-			//std::cout << "box.m_width: " << box.m_width << std::endl;
-			//std::cout << "box.m_height: " << box.m_height << std::endl;
-			//std::cout << "m_state->getPlayer()->m_pos_x: " << m_state->getPlayer()->m_pos_x << std::endl;
-			//std::cout << "m_state->getPlayer()->m_pos_y: " << m_state->getPlayer()->m_pos_y << std::endl;
-			//std::cout << "m_state->getPlayer()->m_width: " << m_state->getPlayer()->m_width << std::endl;
-			//std::cout << "m_state->getPlayer()->m_height: " << m_state->getPlayer()->m_height << std::endl;
-			//std::cout << "m_state->getPlayer()->m_velocity_x: " << m_state->getPlayer()->m_velocity_x << std::endl;
-			//std::cout << "m_state->getPlayer()->m_velocity_y: " << m_state->getPlayer()->m_velocity_y << std::endl;
-			//std::cout << "m_state->getPlayer()->m_acceleration_x: " << m_state->getPlayer()->m_acceleration_x << std::endl;
-			//std::cout << "m_state->getPlayer()->m_acceleration_y: " << m_state->getPlayer()->m_acceleration_y << std::endl;
-			//std::cout << "m_state->getPlayer	
-		}
+		if (m_state->getPlayer()->intersect(box))
+			printf("*");
+		
 	}
 }
 
@@ -50,6 +31,8 @@ void Level::update(float ms)
 {
 	if (m_state->getPlayer()->isActive())
 		m_state->getPlayer()->update(ms);
+
+	checkCollisions();
 
 	GameObject::update(ms);
 }
