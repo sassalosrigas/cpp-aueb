@@ -27,6 +27,7 @@ void Player::init()
 {
 	m_pos_x = 5.0f;
 	m_pos_y = 5.0f;
+	m_width /= 2.0f;
 
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
@@ -34,18 +35,12 @@ void Player::init()
 	m_brush_player.fill_opacity = 1.0f;
 	m_brush_player.outline_opacity = 0.0f;
 	m_brush_player.texture = m_state->getFullAssetPath("player.png");
-
-	m_brush_player_debug.fill_opacity = 0.1f;
-	SETCOLOR(m_brush_player_debug.fill_color, 0.2f, 1.0f, 0.1f);
 }
 
 void Player::draw()
 {
 	graphics::drawRect(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.5f, 1.0f, 1.0f, m_brush_player);
 
-	float x = m_state->getCanvasWidth() * 0.5f;
-	float y = m_state->getCanvasHeight() * 0.5f;
-
 	if (m_state->m_debug_mode)
-		graphics::drawRect(x, y, 1.0f, 1.0f, m_brush_player_debug);
+		debugDraw();
 }
