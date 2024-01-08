@@ -1,4 +1,6 @@
 #include "gamestate.h"
+#include "level.h"
+#include "player.h"
 
 GameState::GameState()
 {
@@ -6,14 +8,32 @@ GameState::GameState()
 
 void GameState::init()
 {
+	m_current_level = new Level();
+	m_current_level->init();
+
+	m_player = new Player("Player");
+	m_player->init();
+
+	graphics::preloadBitmaps(getAssetPath());
 }
 
 void GameState::draw()
 {
+	if (!m_current_level)
+		return;
+
+	m_current_level->draw();
 }
 
 void GameState::update(float ms)
 {
+	if (ms > 500)
+		return;
+
+	if (!m_current_level)
+		return;
+
+	m_current_level->update(ms);
 }
 
 GameState* GameState::getInstance()
