@@ -1,7 +1,12 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+<<<<<<< HEAD
   gamestate.cpp
   level.cpp
   player.cpp
   Generating Code...
 player.obj : error LNK2019: unresolved external symbol "protected: void __cdecl Player::debugDraw(void)" (?debugDraw@Player@@IEAAXXZ) referenced in function "public: virtual void __cdecl Player::draw(void)" (?draw@Player@@UEAAXXZ)
 C:\Users\sassa\source\repos\cpp-aueb\game\bin\game.exe : fatal error LNK1120: 1 unresolved externals
+=======
+  player.cpp
+  game.vcxproj -> C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\bin\game.exe
+>>>>>>> 6216fc072d5f95676e521e8860d0d9fb9c20f3dc
