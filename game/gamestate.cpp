@@ -34,6 +34,8 @@ void GameState::update(float ms)
 		return;
 
 	m_current_level->update(ms);
+
+	m_debug_mode = graphics::getKeyState(graphics::SCANCODE_0);
 }
 
 GameState* GameState::getInstance()
