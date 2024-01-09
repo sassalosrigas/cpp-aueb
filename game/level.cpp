@@ -23,7 +23,16 @@ void Level::checkCollisions()
 	{
 		if (m_state->getPlayer()->intersect(box))
 			printf("*");
-		
+	}
+
+	for (auto& box : m_blocks)
+	{
+		float offset = 0.0f;
+		if (offset = m_state->getPlayer()->intersectDown(box))
+		{
+			printf("down");
+			m_state->getPlayer()->m_pos_y += offset;
+		}
 	}
 }
 

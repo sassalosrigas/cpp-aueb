@@ -8,12 +8,17 @@ class Player : public GameObject, public Box
 {
 	graphics::Brush m_brush_player;
 
-	std::vector<GameObject*> m_static_object;
-	std::vector<GameObject*> m_dynamic_object;
+	const float m_gravity = 10.0f;
+	const float m_accel_vertical = 150.0f;
+	const float m_accel_horizontal = 40.0f;
+	const float m_max_velocity = 10.0f;
 
-	graphics::Brush m_brush_player_debug;
+	void movePlayer(float ms);
 
 public:
+	float m_vx = 0.0f;
+	float m_vy = 0.0f;
+
 	Player(std::string name) : GameObject(name) {}
 
 	void init() override;

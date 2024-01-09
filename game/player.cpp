@@ -7,15 +7,7 @@ void Player::update(float ms)
 {
 	float speed = ms / 1000.0f;
 
-	const float velocity = 10.f;
-	if (graphics::getKeyState(graphics::SCANCODE_A))
-		m_pos_x += speed * velocity;
-	if (graphics::getKeyState(graphics::SCANCODE_D))
-		m_pos_x -= speed * velocity;
-	if (graphics::getKeyState(graphics::SCANCODE_W))
-		m_pos_y += speed * velocity;
-	if (graphics::getKeyState(graphics::SCANCODE_S))
-		m_pos_y -= speed * velocity;
+	movePlayer(ms);
 
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
@@ -23,11 +15,27 @@ void Player::update(float ms)
 	GameObject::update(ms);
 }
 
+void Player::movePlayer(float ms)
+{
+	float speed = ms / 1000.0f;
+
+	float move = 0.0f;
+
+	if (graphics::getKeyState(graphics::SCANCODE_A))
+		move -= 1.0f;
+	if (graphics::getKeyState(graphics::SCANCODE_D))
+		move += 1.0f;
+	
+	m_vx = m_vx + speed * move * m_accel_horizontal;
+
+	m_pos_x += speed * m_vx;
+}
+
 void Player::init()
 {
 	m_pos_x = 5.0f;
 	m_pos_y = 5.0f;
-	m_width /= 2.0f;
+	m_width /= 1.5f;
 
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
