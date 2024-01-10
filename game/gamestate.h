@@ -1,14 +1,20 @@
-#pragma once
 #include <string>
 #include "sgg/graphics.h"
+#include <stdio.h>
+#include "util.h"
 
-class GameState
+struct GameState
 {
 private:
 	std::string m_asset_path = "assets\\";
 	float m_canvas_width = 6.0f;
 	float m_canvas_height = 6.0f;
 
+	graphics::Brush m_brush_bkgnd;
+	graphics::Brush m_brush_player;
+	float m_player_pos_x = m_canvas_width / 2.0f;
+	float m_player_pos_y = m_canvas_height / 2.0f;
+	float m_player_size = 1.0f;
 	static GameState* m_instance;
 
 	GameState();

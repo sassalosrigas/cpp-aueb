@@ -7,8 +7,8 @@
 void Level::drawBlock(int i)
 {
 	Box& box = m_blocks[i];
-	float x = box.m_pos_x - m_state->m_global_offset_x;
-	float y = box.m_pos_y - m_state->m_global_offset_y;
+	float x = box.m_pos_x + m_state->m_global_offset_x;
+	float y = box.m_pos_y + m_state->m_global_offset_y;
 	m_brush_block.texture = m_state->getFullAssetPath(m_block_names[i]);
 
 	graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block);
@@ -19,11 +19,18 @@ void Level::drawBlock(int i)
 
 void Level::checkCollisions()
 {
-	for (auto& box : m_blocks)
+	/*for (auto& box : m_blocks)
 	{
 		if (m_state->getPlayer()->intersect(box))
 			printf("*");
 		
+	}a
+	*/
+	for (auto& box : m_blocks) {
+		float offset = 0.0f;
+		if (offset = m_state->getPlayer()->intersectDown(box)) {
+			m_state->getPlayer()->m_pos_y += offset;
+		}
 	}
 }
 

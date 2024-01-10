@@ -1,6 +1,8 @@
 #include "gamestate.h"
 #include "level.h"
 #include "player.h"
+#include <thread>
+#include <chrono>
 
 GameState::GameState()
 {
@@ -29,7 +31,8 @@ void GameState::update(float ms)
 {
 	if (ms > 500)
 		return;
-
+	float sleep_time = std::max(0.0f, 17.0f - ms);
+	std::this_thread::sleep_for(std::chrono::duration<float,std::milli>(sleep_time));
 	if (!m_current_level)
 		return;
 

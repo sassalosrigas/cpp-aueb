@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\game"
   ],
-  "SelectedNode": "\\C:\\Users\\sassa\\Source\\Repos\\cpp-aueb",
+  "SelectedNode": "\\game\\level.cpp",
   "PreviewInSolutionExplorer": false
 }
