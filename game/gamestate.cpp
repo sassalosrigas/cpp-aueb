@@ -7,16 +7,21 @@
 GameState::GameState()
 {
 }
-
-void GameState::init()
+GameState::~GameState()
 {
-	m_current_level = new Level();
+	if (m_current_level)
+		delete m_current_level;
+}
+bool GameState::init()
+{
+	m_current_level = new Level("1.lvl");
 	m_current_level->init();
 
 	m_player = new Player("Player");
 	m_player->init();
 
 	graphics::preloadBitmaps(getAssetPath());
+	return true;
 }
 
 void GameState::draw()
@@ -32,7 +37,9 @@ void GameState::update(float ms)
 	if (ms > 500)
 		return;
 	float sleep_time = std::max(0.0f, 17.0f - ms);
-	std::this_thread::sleep_for(std::chrono::duration<float,std::milli>(sleep_time));
+	if(sleep_time > 0.0f){
+		std::this_thread::sleep_for(std::chrono::duration<float, std::milli>(sleep_time));
+	}
 	if (!m_current_level)
 		return;
 
@@ -43,19 +50,21 @@ void GameState::update(float ms)
 
 GameState* GameState::getInstance()
 {
-	if (m_instance == nullptr)
+	if (!m_instance)
+	{
 		m_instance = new GameState();
-
+	}
 	return m_instance;
 }
 
-GameState::~GameState()
+/*GameState::~GameState()
 {
 	if(m_player)
 		delete m_player;
 	if(m_current_level)
 		delete m_current_level;
-}
+}*/
+
 
 std::string GameState::getAssetPath()
 {
