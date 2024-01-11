@@ -14,7 +14,7 @@ void Player::movePlayer(float ms) {
 	m_vx = std::min<float>(m_max_velocity,m_vx+speed*move*m_accel_horizontial);
 	m_vx = std::max<float>(-m_max_velocity, m_vx);
 	m_pos_x += speed * m_vx;
-	m_vx -= 0.2f * m_vx / (0.1f + fabs(m_vx));
+	//m_vx -= 0.2f * m_vx / (0.1f + fabs(m_vx));
 
 	if (fabs(m_vx) < 0.01f) {
 		m_vx = 0;
@@ -22,7 +22,7 @@ void Player::movePlayer(float ms) {
 	m_pos_x += m_vx * speed;
 
 	if (m_vy == 0.0f) {
-		m_vy -= (graphics::getKeyState(graphics::SCANCODE_W) ? m_accel_vertical : 0.0f) * 0.02f;
+		m_vy -= (graphics::getKeyState(graphics::SCANCODE_W) ? m_accel_vertical : 0.0f);
 	}
 	m_vy += speed * m_gravity;
 	m_pos_y += m_vy * speed;
@@ -32,11 +32,8 @@ void Player::movePlayer(float ms) {
 void Player::update(float ms)
 {
 	
-	/*if (graphics::getKeyState(graphics::SCANCODE_W))
-		m_pos_y -= speed * velocity;
-	if (graphics::getKeyState(graphics::SCANCODE_S))
-		m_pos_y += speed * velocity;
-
+	/*float speed = ms / 1000.0f;
+	const float velocity = 10.0f;
 	if (graphics::getKeyState(graphics::SCANCODE_A))
 		m_pos_x -= speed * velocity;
 	if (graphics::getKeyState(graphics::SCANCODE_D))
@@ -65,9 +62,6 @@ void Player::init()
 	m_brush_player.fill_opacity = 1.0f;
 	m_brush_player.outline_opacity = 0.0f;
 	m_brush_player.texture = m_state->getFullAssetPath("player.png");
-
-	m_brush_player_debug.fill_opacity = 0.1f;
-	SETCOLOR(m_brush_player_debug.fill_color, 0.2f, 1.0f, 0.1f);
 }
 
 void Player::draw()
