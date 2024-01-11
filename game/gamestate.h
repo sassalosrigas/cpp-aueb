@@ -7,8 +7,8 @@ struct GameState
 {
 private:
 	std::string m_asset_path = "assets\\";
-	float m_canvas_width = 6.0f;
-	float m_canvas_height = 6.0f;
+	const float m_canvas_width = 6.0f;
+	const float m_canvas_height = 6.0f;
 
 	graphics::Brush m_brush_bkgnd;
 	graphics::Brush m_brush_player;
@@ -27,7 +27,7 @@ public:
 	float m_global_offset_y = 0.0f;
 	bool m_debug_mode = false;
 
-	void init();
+	bool init();
 	void draw();
 	void update(float ms); 
 
