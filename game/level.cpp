@@ -7,6 +7,7 @@
 void Level::drawBlock(int i)
 {
 	Box& box = m_blocks[i];
+	std::string& name = m_block_names[i];
 	float x = box.m_pos_x + m_state->m_global_offset_x;
 	float y = box.m_pos_y + m_state->m_global_offset_y;
 	m_brush_block.texture = m_state->getFullAssetPath(m_block_names[i]);
@@ -26,11 +27,25 @@ void Level::checkCollisions()
 		
 	}a
 	*/
-	for (auto& box : m_blocks) {
+	for (auto& block : m_blocks) {
 		float offset = 0.0f;
-		if (offset = m_state->getPlayer()->intersectDown(box)) {
+		if (offset = m_state->getPlayer()->intersectDown(block)) {
 			m_state->getPlayer()->m_pos_y += offset;
+			m_state->getPlayer()->m_vy = 0.0f;
+			break;
 		}
+	}
+	for (auto& block : m_blocks)
+	{
+		float offset = 0.0f;
+		if (offset = m_state->getPlayer()->intersectSideways(block))
+		{
+			m_state->getPlayer()->m_pos_x += offset;
+
+			m_state->getPlayer()->m_vx = 0.0f;
+			break;
+		}
+
 	}
 }
 
