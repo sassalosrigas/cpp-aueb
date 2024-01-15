@@ -19,18 +19,17 @@ private:
 
 	GameState();
 
-	class Player* m_player = 0;
-	class Level* m_current_level = 0;
 	 
 public:
 	float m_global_offset_x = 0.0f;
 	float m_global_offset_y = 0.0f;
 	bool m_debug_mode = false;
-
+	class Level* m_current_level = 0;
+	class Player* m_player = 0;
 	bool init();
 	void draw();
 	void update(float ms); 
-
+	Level* getLevel() const;
 	static GameState* getInstance();
 	~GameState();
 

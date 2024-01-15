@@ -3,16 +3,19 @@
 #include "gameobject.h"
 #include "box.h"
 #include <sgg/graphics.h>
+#include "level.h"
 
 class Player : public GameObject, public Box
 {
 	graphics::Brush m_brush_player;
-
-	const float m_gravity = 5.0f;
-	const float m_accel_vertical = 3.0f;
-	const float m_accel_horizontial = 5.0f;
-	const float m_max_velocity = 5.0f;
+	std::vector<std::string> m_spritesR;
+	std::vector<std::string> m_spritesL;
+	const float m_gravity = 8.0f;
+	const float m_accel_vertical = 4.5f;
+	const float m_accel_horizontial = 3.0f;
+	const float m_max_velocity = 3.0f;
 	void movePlayer(float ms);
+
 
 public:
 	float m_vx = 0.0f;

@@ -15,8 +15,6 @@ class Level : public GameObject
 	std::vector<GameObject*> m_static_object;
 	std::vector<GameObject*> m_dynamic_object;
 
-	std::vector<Box> m_blocks;
-	std::vector<std::string> m_block_names;
 	const float m_block_size = 1.0f;
 	graphics::Brush m_brush_block;
 	graphics::Brush m_brush_block_debug;
@@ -25,7 +23,11 @@ class Level : public GameObject
 
 	void checkCollisions();
 
+	std::vector<Box> getVec();
+
 public:
+	std::vector<Box> m_blocks;
+	std::vector<std::string> m_block_names;
 	void update(float ms) override;
 	void draw() override;
 	void init() override;

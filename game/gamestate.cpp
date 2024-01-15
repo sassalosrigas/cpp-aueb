@@ -64,7 +64,9 @@ GameState* GameState::getInstance()
 	if(m_current_level)
 		delete m_current_level;
 }*/
-
+Level* GameState::getLevel() const{
+	return m_current_level;
+}
 
 std::string GameState::getAssetPath()
 {
@@ -77,3 +79,5 @@ std::string GameState::getFullAssetPath(std::string asset)
 }
 
 GameState* GameState::m_instance = nullptr;
+
+

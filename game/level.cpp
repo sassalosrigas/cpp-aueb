@@ -3,6 +3,8 @@
 #include "player.h"
 #include <sgg/graphics.h>
 #include "util.h"
+#include <chrono>
+#include <thread>
 
 void Level::drawBlock(int i)
 {
@@ -20,13 +22,20 @@ void Level::drawBlock(int i)
 
 void Level::checkCollisions()
 {
-	/*for (auto& box : m_blocks)
-	{
-		if (m_state->getPlayer()->intersect(box))
-			printf("*");
-		
-	}a
+	/*for (auto& block : m_blocks) {
+		float offset = 0.0f;
+		if (m_state->getPlayer()->intersect(block) && !m_state->getPlayer()->intersectDown(block) && !m_state->getPlayer()->intersectSideways(block)) 
+		{
+			m_state->getPlayer()->m_pos_y -= offset;
+			m_state->getPlayer()->m_vy = 0.0f;
+			if (m_state->getPlayer()->intersect(block)) {
+				m_state->getPlayer()->m_pos_y -= 0.01f;
+			}
+			break;
+		}
+	}
 	*/
+	
 	for (auto& block : m_blocks) {
 		float offset = 0.0f;
 		if (offset = m_state->getPlayer()->intersectDown(block)) {
@@ -36,17 +45,16 @@ void Level::checkCollisions()
 		}
 	}
 	for (auto& block : m_blocks)
-	{
+	{	
 		float offset = 0.0f;
 		if (offset = m_state->getPlayer()->intersectSideways(block))
 		{
-			m_state->getPlayer()->m_pos_x += offset;
-
+			m_state->getPlayer()->m_pos_x += offset *2.0f;
 			m_state->getPlayer()->m_vx = 0.0f;
 			break;
 		}
-
 	}
+	
 }
 
 void Level::update(float ms)
@@ -98,25 +106,84 @@ void Level::init()
 		if (p_gob)
 			p_gob->init();
 
-	m_blocks.push_back(Box(5*m_block_size, 6*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(4*m_block_size, 6*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(3*m_block_size, 6*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(2*m_block_size, 5*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(6*m_block_size, 6*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(7*m_block_size, 6*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(7*m_block_size, 5*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(3*m_block_size, 2*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(4*m_block_size, 3*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-7*m_block_size, 15*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-6*m_block_size, 15*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-5*m_block_size, 15*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-4*m_block_size, 15*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-3*m_block_size, 15*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-2*m_block_size, 15*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-1*m_block_size, 15*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(0*m_block_size, 15*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(1*m_block_size, 15*m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(2 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(3 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(4 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(5 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(6 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(7 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(5 * m_block_size, 13 * m_block_size, m_block_size, m_block_size));
 
-	m_block_names.push_back("block.png");
-	m_block_names.push_back("block.png");
-	m_block_names.push_back("block.png");
-	m_block_names.push_back("block.png");
-	m_block_names.push_back("block.png");
-	m_block_names.push_back("block.png");
-	m_block_names.push_back("block.png");
-	m_block_names.push_back("block.png");
-	m_block_names.push_back("block.png");
+
+	m_blocks.push_back(Box(-8 * m_block_size,15 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8* m_block_size, 14 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8* m_block_size, 13 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8* m_block_size, 12 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8* m_block_size, 11 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8* m_block_size, 10 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8* m_block_size, 9 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8* m_block_size, 8 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8* m_block_size, 7 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8* m_block_size, 6 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8 * m_block_size,5 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8 * m_block_size,4 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8 * m_block_size,3 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8 * m_block_size, 2 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8 * m_block_size, 1 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8 * m_block_size, 0 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-8 * m_block_size, -1 * m_block_size, m_block_size, m_block_size));
+
+
+	m_blocks.push_back(Box(8* m_block_size, 15 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8* m_block_size, 14 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8* m_block_size, 13 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8* m_block_size, 12 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8* m_block_size, 11 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8* m_block_size, 10 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8* m_block_size, 9 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8* m_block_size, 8 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8* m_block_size, 7 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8 * m_block_size,6 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8 * m_block_size,5 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8 * m_block_size,4 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8 * m_block_size,3 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8 * m_block_size,2 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8 * m_block_size,1 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8 * m_block_size,0 * m_block_size, m_block_size, m_block_size));
+
+
+	m_blocks.push_back(Box(-7 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-6 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-5 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-4 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-3 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-2 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(-1 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(0 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(1 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(2 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(3 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(4 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(5 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(6 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(7 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
+	m_blocks.push_back(Box(8 * m_block_size, -1 * m_block_size, m_block_size, m_block_size));
+
+
+	
+
+	for (int i = 1; i <= 65; i++) {
+		m_block_names.push_back("block.png");
+	}
 
 	m_brush_block.outline_opacity = 0.0f;
 	m_brush_block_debug.fill_opacity = 0.1f;
@@ -124,6 +191,10 @@ void Level::init()
 	SETCOLOR(m_brush_block.outline_color, 0.3f, 1.0f, 0.2f);
 
 
+}
+std::vector<Box> getVec() {
+	Level l;
+	return l.m_blocks;
 }
 
 Level::Level(const std::string& name)
