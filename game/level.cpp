@@ -5,6 +5,7 @@
 #include "util.h"
 #include <chrono>
 #include <thread>
+#include "enemy.h"
 
 void Level::drawBlock(int i)
 {
@@ -18,6 +19,15 @@ void Level::drawBlock(int i)
 
 	if (m_state->m_debug_mode)
 		graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block_debug);
+}
+
+void Level::drawEnemy(int i) {
+	Enemy& e = m_enemies[i];
+	std::string& name = m_enemy_names[i];
+	float x = e.m_pos_x + m_state->m_global_offset_x;
+	float y = e.m_pos_y + m_state->m_global_offset_y;
+	m_brush_block.texture = m_state->getFullAssetPath(m_enemy_names[i]);
+	graphics::drawRect(x, y,1.0f, 1.0f, m_brush_block);
 }
 
 void Level::checkCollisions()
@@ -83,10 +93,17 @@ void Level::draw()
 	{
 		drawBlock(i);
 	}
+	m_state->getEnemy()->draw();
 
-	if (m_state->getPlayer()->isActive())
+	//for (int i = 0; i < m_enemies.size(); i++) {
+		//drawEnemy(i);
+	//}
+
+	if (m_state->getPlayer()->isActive()) {
 		m_state->getPlayer()->draw();
-
+	}
+	
+	
 	for (auto p_gob : m_static_object)
 		if (p_gob)
 			p_gob->draw();
@@ -177,11 +194,12 @@ void Level::init()
 	m_blocks.push_back(Box(6 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
 	m_blocks.push_back(Box(7 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
 	m_blocks.push_back(Box(8 * m_block_size, -1 * m_block_size, m_block_size, m_block_size));
+	//m_blocks.push_back(Enemy(7*m_block_size, 0*m_block_size, m_block_size, m_block_size));
 
 
-	
-
-	for (int i = 1; i <= 65; i++) {
+	//m_enemies.push_back(Enemy("w"));
+	//m_enemy_names.push_back("woof.png");
+	for (int i = 1; i <= 66; i++) {
 		m_block_names.push_back("block.png");
 	}
 

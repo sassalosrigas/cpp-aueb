@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include "sgg/graphics.h"
 #include <stdio.h>
@@ -12,6 +13,7 @@ private:
 
 	graphics::Brush m_brush_bkgnd;
 	graphics::Brush m_brush_player;
+	graphics::Brush m_brush_enemy;
 	float m_player_pos_x = m_canvas_width / 2.0f;
 	float m_player_pos_y = m_canvas_height / 2.0f;
 	float m_player_size = 1.0f;
@@ -26,6 +28,7 @@ public:
 	bool m_debug_mode = false;
 	class Level* m_current_level = 0;
 	class Player* m_player = 0;
+	class Enemy* m_enemy = 0;
 	bool init();
 	void draw();
 	void update(float ms); 
@@ -40,4 +43,6 @@ public:
 	std::string getFullAssetPath(std::string asset);
 
 	class Player* getPlayer() { return m_player; }
+	class Enemy* getEnemy() { return m_enemy; }
+
 };

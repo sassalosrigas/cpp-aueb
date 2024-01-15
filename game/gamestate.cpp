@@ -3,6 +3,7 @@
 #include "player.h"
 #include <thread>
 #include <chrono>
+#include "enemy.h"
 
 GameState::GameState()
 {
@@ -19,7 +20,8 @@ bool GameState::init()
 
 	m_player = new Player("Player");
 	m_player->init();
-
+	m_enemy = new Enemy("enemy");
+	m_enemy->init();
 	graphics::preloadBitmaps(getAssetPath());
 	return true;
 }

@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include "player.h"
+#include "enemy.h"
 
 class Level : public GameObject
 {
@@ -20,6 +21,7 @@ class Level : public GameObject
 	graphics::Brush m_brush_block_debug;
 
 	void drawBlock(int i);
+	void drawEnemy(int i);
 
 	void checkCollisions();
 
@@ -28,6 +30,8 @@ class Level : public GameObject
 public:
 	std::vector<Box> m_blocks;
 	std::vector<std::string> m_block_names;
+	std::vector<Enemy> m_enemies;
+	std::vector<std::string> m_enemy_names;
 	void update(float ms) override;
 	void draw() override;
 	void init() override;
