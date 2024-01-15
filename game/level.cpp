@@ -24,10 +24,12 @@ void Level::drawBlock(int i)
 void Level::drawEnemy(int i) {
 	Enemy& e = m_enemies[i];
 	std::string& name = m_enemy_names[i];
+	
 	float x = e.m_pos_x + m_state->m_global_offset_x;
 	float y = e.m_pos_y + m_state->m_global_offset_y;
 	m_brush_block.texture = m_state->getFullAssetPath(m_enemy_names[i]);
-	graphics::drawRect(x, y,1.0f, 1.0f, m_brush_block);
+	graphics::drawRect(m_state->getCanvasWidth()*0.5f, m_state->getCanvasHeight() * 0.5f, 1.0f, 1.0f, m_brush_enemy);
+	//graphics::drawRect(x, y,1.0f, 1.0f, m_brush_enemy);
 }
 
 void Level::checkCollisions()
@@ -93,11 +95,11 @@ void Level::draw()
 	{
 		drawBlock(i);
 	}
-	m_state->getEnemy()->draw();
+	//m_state->getEnemy()->draw();
 
-	//for (int i = 0; i < m_enemies.size(); i++) {
-		//drawEnemy(i);
-	//}
+	for (int i = 0; i < m_enemies.size(); i++) {
+		drawEnemy(i);
+	}
 
 	if (m_state->getPlayer()->isActive()) {
 		m_state->getPlayer()->draw();
@@ -197,16 +199,22 @@ void Level::init()
 	//m_blocks.push_back(Enemy(7*m_block_size, 0*m_block_size, m_block_size, m_block_size));
 
 
-	//m_enemies.push_back(Enemy("w"));
-	//m_enemy_names.push_back("woof.png");
+	m_enemies.push_back(Enemy(7.0f,0.0f,1.0f,1.0f));
+	m_enemy_names.push_back("woof.png");
+	
 	for (int i = 1; i <= 66; i++) {
 		m_block_names.push_back("block.png");
 	}
-
+	m_enemies[0].init();
 	m_brush_block.outline_opacity = 0.0f;
 	m_brush_block_debug.fill_opacity = 0.1f;
 	SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
 	SETCOLOR(m_brush_block.outline_color, 0.3f, 1.0f, 0.2f);
+
+	//m_brush_enemy.outline_opacity = 0.0f;
+	//m_brush_block_debug.fill_opacity = 0.1f;
+	//SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
+	//SETCOLOR(m_brush_enemy.outline_color, 0.3f, 1.0f, 0.2f);
 
 
 }

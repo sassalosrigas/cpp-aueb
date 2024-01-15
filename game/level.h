@@ -19,6 +19,7 @@ class Level : public GameObject
 	const float m_block_size = 1.0f;
 	graphics::Brush m_brush_block;
 	graphics::Brush m_brush_block_debug;
+	graphics::Brush m_brush_enemy;
 
 	void drawBlock(int i);
 	void drawEnemy(int i);
