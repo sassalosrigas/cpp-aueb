@@ -17,5 +17,13 @@ public:
 	
 	Enemy(float x, float y, float w, float h)
 		: Box(x, y, w, h) {}
+
+	float getPosX() {
+		return m_pos_x;
+	}
+
+	float getPosY() {
+		return m_pos_y;
+	}
 };
 

@@ -19,7 +19,7 @@ struct Box
             (fabs(m_pos_y - other.m_pos_y) * 2.0f < (m_height + other.m_height));
     }
 
-    /** Detects an intersection when this Box is "above" (smaller y values) a target box (other)
+    /** Detects an intersection when this Box is "above" (smaller y values) a target box (other)a
     *   and reports the adjustment offset so that the two boxes are separated.
     *
     *   \param other is the second (target) Box to test collision on the vertical axis with.
