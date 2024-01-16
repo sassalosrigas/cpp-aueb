@@ -75,7 +75,8 @@ void Player::init()
 {
 	m_pos_x = 5.0f;
 	m_pos_y = 5.0f;
-	m_width /= 1.5f;
+	m_width /= 1.4f;
+	m_height /= 1.2f;
 
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
@@ -103,7 +104,7 @@ void Player::draw()
 		m_brush_player.texture = m_spritesR[sprite];
 	}
 	if (graphics::getKeyState(graphics::SCANCODE_A)) {
-		m_brush_player.texture = m_spritesL[sprite];
+		m_brush_player.texture = m_spritesL[sprite];  
 	}
 	if (m_vx == 0) {
 		m_brush_player.texture = m_state->getFullAssetPath("hk0.png");

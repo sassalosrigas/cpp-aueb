@@ -30,23 +30,20 @@ void Level::drawEnemy(int i) {
 	m_brush_enemy.texture = m_state->getFullAssetPath(m_enemy_names[i]);
 	//graphics::drawRect(m_state->getCanvasWidth()*0.5f, m_state->getCanvasHeight() * 0.5f, 1.0f, 1.0f, m_brush_enemy);
 	graphics::drawRect(x, y,1.0f, 1.0f, m_brush_enemy);
+	if (m_state->m_debug_mode)
+		graphics::drawRect(x, y, 1.0f, 1.0f, m_brush_block_debug);
 }
 
 void Level::checkCollisions()
 {
-	/*for (auto& block : m_blocks) {
-		float offset = 0.0f;
-		if (m_state->getPlayer()->intersect(block) && !m_state->getPlayer()->intersectDown(block) && !m_state->getPlayer()->intersectSideways(block)) 
-		{
-			m_state->getPlayer()->m_pos_y -= offset;
-			m_state->getPlayer()->m_vy = 0.0f;
-			if (m_state->getPlayer()->intersect(block)) {
-				m_state->getPlayer()->m_pos_y -= 0.01f;
-			}
+	for (auto& enemy : m_enemies) {
+		
+		if (m_state->getPlayer()->intersect(enemy)){
+			printf("*");
 			break;
 		}
 	}
-	*/
+	
 	
 	for (auto& block : m_blocks) {
 		float offset = 0.0f;
@@ -200,7 +197,7 @@ void Level::init()
 
 
 	m_enemies.push_back(Enemy(1.0f,14.0f,1.0f,1.0f));
-	m_enemy_names.push_back("woof.png");
+	m_enemy_names.push_back("puppies-flyr1.png");
 	m_enemies[0].init();
 	
 	for (int i = 1; i <= 66; i++) {

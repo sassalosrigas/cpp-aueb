@@ -20,6 +20,7 @@ class Level : public GameObject
 	graphics::Brush m_brush_block;
 	graphics::Brush m_brush_block_debug;
 	graphics::Brush m_brush_enemy;
+	graphics::Brush m_brush_enemy_debug;
 
 	void drawBlock(int i);
 	void drawEnemy(int i);

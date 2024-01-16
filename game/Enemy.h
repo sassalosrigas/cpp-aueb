@@ -14,6 +14,7 @@ public:
 	void draw() override;
 	void update(float ms) override;
 	graphics::Brush m_brush_enemy;
+	std::vector<std::string>m_spritesFly;
 	
 	Enemy(float x, float y, float w, float h)
 		: Box(x, y, w, h) {}
