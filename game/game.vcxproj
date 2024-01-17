@@ -137,6 +137,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="gamestate.cpp" />
+    <ClCompile Include="healthbar.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="gamestate.h" />
+    <ClInclude Include="healthbar.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="util.h" />
