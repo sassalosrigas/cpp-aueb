@@ -6,6 +6,7 @@
 class HealthBar : public GameObject
 {
 private:
+    float m_maxHealth;
     float m_currentHealth;
     graphics::Brush m_healthBarBrush;
 
