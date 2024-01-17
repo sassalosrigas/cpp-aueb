@@ -6,6 +6,7 @@
 #include <chrono>
 #include <thread>
 #include "enemy.h"
+#include "projectile.h"
 
 void Level::drawBlock(int i)
 {
@@ -70,7 +71,10 @@ void Level::update(float ms)
 {
 	if (m_state->getPlayer()->isActive())
 		m_state->getPlayer()->update(ms);
-	
+	for (int i = 0; i < m_enemies.size(); i++) {
+		m_enemies[i].update(ms);
+	}
+
 	checkCollisions();
 
 	GameObject::update(ms);
@@ -92,16 +96,15 @@ void Level::draw()
 	{
 		drawBlock(i);
 	}
-	//m_state->getEnemy()->draw();
 
 	for (int i = 0; i < m_enemies.size(); i++) {
-		drawEnemy(i);
+		m_enemies[i].draw();
 	}
+
 
 	if (m_state->getPlayer()->isActive()) {
 		m_state->getPlayer()->draw();
 	}
-	
 	
 	for (auto p_gob : m_static_object)
 		if (p_gob)
@@ -197,8 +200,8 @@ void Level::init()
 
 
 	m_enemies.push_back(Enemy(1.0f,14.0f,1.0f,1.0f));
-	m_enemy_names.push_back("puppies-flyr1.png");
 	m_enemies[0].init();
+	
 	
 	for (int i = 1; i <= 66; i++) {
 		m_block_names.push_back("block.png");

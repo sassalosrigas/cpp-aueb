@@ -5,6 +5,7 @@
 #include <string>
 #include "player.h"
 #include "enemy.h"
+#include "projectile.h"
 
 class Level : public GameObject
 {
@@ -34,6 +35,7 @@ public:
 	std::vector<std::string> m_block_names;
 	std::vector<Enemy> m_enemies;
 	std::vector<std::string> m_enemy_names;
+	class Projectile* t;
 	void update(float ms) override;
 	void draw() override;
 	void init() override;

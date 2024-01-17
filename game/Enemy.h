@@ -7,8 +7,8 @@
 class Enemy : public GameObject, public Box {
 	
 public:
-	//const float m_vx = 2.0f;
 	//const float m_vy = 2.0f;
+	const float m_vx = 2.0f;
 	Enemy(std::string name) : GameObject(name) {}
 	void init() override;
 	void draw() override;
@@ -26,6 +26,6 @@ public:
 	float getPosY() {
 		return m_pos_y;
 	}
-	
+	void debugDrawP();
 };
 
