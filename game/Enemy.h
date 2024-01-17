@@ -15,7 +15,7 @@ public:
 	void update(float ms) override;
 	graphics::Brush m_brush_enemy;
 	std::vector<std::string>m_spritesFly;
-	
+	int form = 0;
 	Enemy(float x, float y, float w, float h)
 		: Box(x, y, w, h) {}
 
@@ -26,5 +26,6 @@ public:
 	float getPosY() {
 		return m_pos_y;
 	}
+	
 };
 

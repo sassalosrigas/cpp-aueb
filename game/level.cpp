@@ -70,7 +70,7 @@ void Level::update(float ms)
 {
 	if (m_state->getPlayer()->isActive())
 		m_state->getPlayer()->update(ms);
-
+	
 	checkCollisions();
 
 	GameObject::update(ms);
