@@ -68,6 +68,9 @@ void Player::update(float ms)
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
 
+	m_healthBar.setCurrentHealth(1.0f);
+	m_healthBar.draw(m_state->getCanvasWidth(), m_state->getCanvasHeight());
+
 	GameObject::update(ms);
 }
 

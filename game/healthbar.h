@@ -1,19 +1,21 @@
 #pragma once
 
-class HealthBar
+#include <sgg/graphics.h>
+#include <string>
+
+class HealthBar : public GameObject
 {
-public:
-	HealthBar(int m_initial_health)
-
-	~HealthBar();
-
-	void setCurrentHealth(int health);
-	int getCurrentHealth() const;
-
-	void display() const;
-
 private:
-	int maxHealth;
-	int currentHealth;
-	int barWidth;
+    float m_currentHealth;
+    graphics::Brush m_healthBarBrush;
+
+public:
+    HealthBar();
+
+    void setCurrentHealth(float health);
+    float getCurrentHealth() const;
+
+    void draw(float canvasWidth, float canvasHeight) const;
+
+    HealthBar() = default;
 };

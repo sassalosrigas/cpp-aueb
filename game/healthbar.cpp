@@ -1,33 +1,27 @@
 #include "healthbar.h"
-#include <iostream>
-#include <algorithm>
+#include "util.h"
+#include "gamestate.h"  
 
-HealthBar::HealthBar(int m_intitial_health) : maxHealth(100), currentHealth(m_intitial_health), barWidth(30) 
-{
+HealthBar::HealthBar() : m_currentHealth(1.0f) {
+    // Set up the health bar brush (you may need to adjust color and size)
+    SETCOLOR(m_healthBarBrush.fill_color, 0, 1, 0);
+    m_healthBarBrush.fill_opacity = 1.0f;
+    m_healthBarBrush.outline_opacity = 0.0f;
 }
 
-HealthBar::~HealthBar()
-{
+void HealthBar::setCurrentHealth(float health) {
+    m_maxHealth = 1.0f;
+    m_currentHealth = std::max(0.0f, std::min(health, m_maxHealth));
 }
 
-void HealthBar::setCurrentHealth(int health)
-{
-	currentHealth = std::max(0, std::min(health, maxHealth));
+float HealthBar::getCurrentHealth() const {
+    return m_currentHealth;
 }
 
-int HealthBar::getCurrentHealth() const
-{
-	return currentHealth;
-}
+void HealthBar::draw(float canvasWidth, float canvasHeight) const {
+    // Calculate the width of the health bar based on the current health
+    float healthBarWidth = (m_currentHealth / m_maxHealth) * canvasWidth;
 
-void HealthBar::drawBar(int i)
-{
-	float x = .m_pos_x + m_state->m_global_offset_x;
-	float y = box.m_pos_y + m_state->m_global_offset_y;
-	m_brush_block.texture = m_state->getFullAssetPath(m_block_names[i]);
-
-	graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block);
-
-	if (m_state->m_debug_mode)
-		graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block_debug);
+    // Draw the health bar at the top of the screen
+    graphics::drawRect(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.1f, healthBarWidth, 10.0f, m_healthBarBrush);
 }

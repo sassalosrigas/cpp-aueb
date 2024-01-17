@@ -4,6 +4,7 @@
 #include "box.h"
 #include <sgg/graphics.h>
 #include "level.h"
+#include "healthbar.h"
 
 class Player : public GameObject, public Box
 {
@@ -15,6 +16,7 @@ class Player : public GameObject, public Box
 	const float m_accel_horizontial = 3.0f;
 	const float m_max_velocity = 3.0f;
 	void movePlayer(float ms);
+	HealthBar m_healthBar;
 
 
 public:
