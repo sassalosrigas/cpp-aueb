@@ -6,5 +6,4 @@ C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp
   C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gamestate.h(7,8):
   see declaration of 'GameState'
   
-C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\enemy.cpp(33,67): warning C4244: 'argument': conversion from 'unsigned __int64' to 'double', possible loss of data
   game.vcxproj -> C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\bin\game.exe
