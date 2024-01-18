@@ -1,11 +1,13 @@
 #pragma once
-#include <sgg/graphics.h>
-#include <vector>
+#include <sgg/graphics.h>>
 #include <list>
 #include <string>
 #include "player.h"
 #include "flyingpuppy.h"
 #include "projectile.h"
+#include <memory>
+#include <vector>
+#include <iostream>
 
 class Level : public GameObject
 {
@@ -20,8 +22,9 @@ class Level : public GameObject
 	const float m_block_size = 1.0f;
 	graphics::Brush m_brush_block;
 	graphics::Brush m_brush_block_debug;
-	graphics::Brush m_brush_enemy;
-	graphics::Brush m_brush_enemy_debug;
+	graphics::Brush m_brush_puppies;
+	graphics::Brush m_brush_puppies_debug;
+	std::vector<std::unique_ptr<FlyingPuppy>> puppies;
 
 	void drawBlock(int i);
 	void drawEnemy(int i);

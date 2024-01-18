@@ -7,6 +7,10 @@
 #include <thread>
 #include "flyingpuppy.h"
 #include "ribbon.h"
+#include <memory>
+#include <vector>
+#include <iostream>
+using namespace std;
 
 void Level::drawBlock(int i)
 {
@@ -23,23 +27,23 @@ void Level::drawBlock(int i)
 }
 
 void Level::drawEnemy(int i) {
-	FlyingPuppy& p = m_enemies[i];
+	FlyingPuppy& p = *puppies[i];
 	std::string& name = m_enemy_names[i];
 	
 	float x = p.getPosX() + m_state->m_global_offset_x;
 	float y = p.getPosY() + m_state->m_global_offset_y;
-	m_brush_enemy.texture = m_state->getFullAssetPath(m_enemy_names[i]);
+	m_brush_puppies.texture = m_state->getFullAssetPath(m_enemy_names[i]);
 	//graphics::drawRect(m_state->getCanvasWidth()*0.5f, m_state->getCanvasHeight() * 0.5f, 1.0f, 1.0f, m_brush_enemy);
-	graphics::drawRect(x, y,1.0f, 1.0f, m_brush_enemy);
+	graphics::drawRect(x, y,1.0f, 1.0f, m_brush_puppies);
 	if (m_state->m_debug_mode)
 		graphics::drawRect(x, y, 1.0f, 1.0f, m_brush_block_debug);
 }
 
 void Level::checkCollisions()
 {
-	for (auto& enemy : m_enemies) {
-
-		if (m_state->getPlayer()->intersect(enemy)) {
+	for(int i = 0;i<puppies.size();i++){
+		auto& p = puppies[i];
+		if (m_state->getPlayer()->intersect()) {
 			printf("*");
 			break;
 		}
@@ -49,6 +53,8 @@ void Level::checkCollisions()
 		for (auto& enemy : m_enemies) {
 			if (ribbon->intersect(enemy)) {
 				printf("*");
+				enemy.health_p -= 0.5f;
+				cout << enemy.health_p;
 			}
 		}
 	}
@@ -80,8 +86,9 @@ void Level::update(float ms)
 {
 	if (m_state->getPlayer()->isActive())
 		m_state->getPlayer()->update(ms);
-	for (int i = 0; i < m_enemies.size(); i++) {
-		m_enemies[i].update(ms);
+	for (auto& p : puppies) {
+		p->update(ms);
+
 	}
 
 	checkCollisions();
@@ -106,8 +113,8 @@ void Level::draw()
 		drawBlock(i);
 	}
 
-	for (int i = 0; i < m_enemies.size(); i++) {
-		m_enemies[i].draw();
+	for (auto& p : puppies) {
+		p->draw();
 	}
 
 
@@ -208,23 +215,22 @@ void Level::init()
 	//m_blocks.push_back(Enemy(7*m_block_size, 0*m_block_size, m_block_size, m_block_size));
 
 
-	m_enemies.push_back(FlyingPuppy(1.0f,14.0f,1.0f,1.0f));
-	m_enemies[0].init();
+	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f,14.0f,1.0f,1.0f));
+	puppies[0]->init();
 	
 	
 	for (int i = 1; i <= 66; i++) {
 		m_block_names.push_back("block.png");
 	}
-	m_enemies[0].init();
 	m_brush_block.outline_opacity = 0.0f;
 	m_brush_block_debug.fill_opacity = 0.1f;
 	SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
 	SETCOLOR(m_brush_block.outline_color, 0.3f, 1.0f, 0.2f);
 
-	m_brush_enemy.outline_opacity = 0.0f;
+	m_brush_puppies.outline_opacity = 0.0f;
 	//m_brush_block_debug.fill_opacity = 0.1f;
 	//SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
-	SETCOLOR(m_brush_enemy.outline_color, 0.3f, 1.0f, 0.2f);
+	SETCOLOR(m_brush_puppies.outline_color, 0.3f, 1.0f, 0.2f);
 
 
 }

@@ -4,6 +4,8 @@
 #include "util.h"
 #include <thread>
 #include <chrono>
+#include <iostream>
+using namespace std;
 
 
 void FlyingPuppy::init() {

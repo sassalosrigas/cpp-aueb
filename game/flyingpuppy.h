@@ -8,6 +8,7 @@ class FlyingPuppy : public GameObject, public Box {
 	
 public:
 	//const float m_vy = 2.0f;
+	float health_p = 100.0f;
 	const float m_vx = 2.0f;
 	FlyingPuppy(std::string name) : GameObject(name) {}
 	void init() override;
@@ -27,5 +28,7 @@ public:
 		return m_pos_y;
 	}
 	void debugDrawFLP();
+	~FlyingPuppy() {};
+
 };
 
