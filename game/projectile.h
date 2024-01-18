@@ -9,14 +9,15 @@
 class Projectile : public Box, public GameObject {
 
 public:
-	float i = 0.1f;
+	bool left = false;
+	float i = 0.0f;
 	void init(float x,float y);
 	void draw() override;
 	void update(float ms) override;
 	graphics::Brush m_brush_projectile;
 	Projectile(float x, float y, float w, float h)
 		: Box(x, y, w, h) {}
-	const float speed = 0.001f;
+	const float speed = 0.1f;
 	Projectile() {} 
 	float posX() {
 		return m_pos_x;
@@ -30,4 +31,11 @@ public:
 	void setPosY(float y) {
 		m_pos_y = y;
 	}
+	void setLeft() {
+		left = true;
+	}
+	bool outOfRange() {
+		return i > 30.0f;
+	}
+	void debugDrawProj();
 };

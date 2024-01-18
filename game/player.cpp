@@ -15,9 +15,11 @@ void Player::movePlayer(float ms) {
 	float move = 0.0f;
 	if (graphics::getKeyState(graphics::SCANCODE_A)) {
 		move -= 1.0f;
+		left = true;
 	}
 	else if (graphics::getKeyState(graphics::SCANCODE_D)) {
 		move += 1.0f;
+		left = false;
 	}
 	m_vx = std::min<float>(m_max_velocity, m_vx + speed * move * m_accel_horizontial);
 	m_vx = std::max<float>(-m_max_velocity, m_vx);
@@ -35,10 +37,16 @@ void Player::movePlayer(float ms) {
 	m_vy += speed * m_gravity;
 	m_pos_y += m_vy * speed;
 	if (graphics::getKeyState(graphics::SCANCODE_SPACE)){
-			projectiles.push_back(Projectile(m_pos_x, m_pos_y, 1.0f, 1.0f));
-			projectiles[counter].init(m_pos_x, m_pos_y);
+		if (can_shoot) {
+			projectiles.push_back(std::make_unique<Projectile>(m_pos_x, m_pos_y, 1.0f, 1.0f));
+			projectiles[counter]->init(m_pos_x, m_pos_y);
 			//cout << projectiles.size();
+			if (left) {
+				projectiles[counter]->setLeft();
+			}
 			counter++;
+			can_shoot = false;
+		}
 	}
 }
 
@@ -48,19 +56,32 @@ void Player::update(float ms)
 	static auto lastUpdateTime = std::chrono::high_resolution_clock::now();
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastUpdateTime).count();
-	movePlayer(ms);
-	if (projectiles.size() >= 1) {
-		for (int i = 0; i < projectiles.size(); i++) {
-			projectiles[i].update(ms);
+	movePlayer(ms);		
+	if (!can_shoot) {
+		shoot_cooldown -= ms / 1000.0f;
+		if (shoot_cooldown <= 0) {
+			can_shoot = true;
+			shoot_cooldown = 1.0f;
 		}
 	}
-	if (deltaTime >= 1000){ 
+	if (projectiles.size() >= 1) {
 		for (int i = 0; i < projectiles.size(); i++) {
-			cout << "PROJECTILE " << i << " " << projectiles[i].posX() << endl;
+			projectiles[i]->update(ms);
+		}
+	}
+	projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(),
+		[](const std::unique_ptr<Projectile>& projectile) {
+			return projectile->outOfRange();
+		}), projectiles.end());
+	counter = projectiles.size();
+	/*if (deltaTime >= 1000) {
+		for (int i = 0; i < projectiles.size(); i++) {
+			cout << "PROJECTILE " << i << " " << projectiles[i]->posX() << endl;
 			cout << "PLAYER" << m_pos_x << endl;
 		}
 		lastUpdateTime = currentTime;
 	}
+	*/
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
 
@@ -112,8 +133,8 @@ void Player::draw()
 	}
 	if (projectiles.size() >= 1) {
 		for (int i = 0; i < projectiles.size(); i++) {
-			projectiles[i].draw();
-		}
+			projectiles[i]->draw();
+ 		}
 	}
 	
 }

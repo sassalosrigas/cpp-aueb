@@ -5,6 +5,9 @@
 #include <sgg/graphics.h>
 #include "level.h"
 #include "projectile.h"
+#include <memory>
+#include <vector>
+#include <iostream>
 
 class Player : public GameObject, public Box
 {
@@ -18,11 +21,14 @@ class Player : public GameObject, public Box
 	void movePlayer(float ms);
 	bool projActive = false;
 	int counter = 0;
-	
+	bool left = false;
+	bool can_shoot = false;
+	float shoot_cooldown = 0.0f;
+
 public:
 	float m_vx = 0.0f;
 	float m_vy = 0.0f;
-	std::vector<Projectile> projectiles;
+	std::vector<std::unique_ptr<Projectile>> projectiles;
 	Player(std::string name) : GameObject(name) {}
 	void init() override;
 	void draw() override;

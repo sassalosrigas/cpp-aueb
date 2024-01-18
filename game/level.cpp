@@ -38,14 +38,23 @@ void Level::drawEnemy(int i) {
 void Level::checkCollisions()
 {
 	for (auto& enemy : m_enemies) {
-		
-		if (m_state->getPlayer()->intersect(enemy)){
+
+		if (m_state->getPlayer()->intersect(enemy)) {
 			printf("*");
 			break;
 		}
 	}
-	
-	
+
+	for (const auto& projectile : m_state->getPlayer()->projectiles){
+		for (auto& enemy : m_enemies) {
+			if (projectile->intersect(enemy)) {
+				printf("*");
+			}
+		}
+	}
+
+
+
 	for (auto& block : m_blocks) {
 		float offset = 0.0f;
 		if (offset = m_state->getPlayer()->intersectDown(block)) {
