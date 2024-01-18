@@ -3,7 +3,7 @@
 #include "player.h"
 #include <thread>
 #include <chrono>
-#include "enemy.h"
+#include "flyingpuppy.h"
 
 GameState::GameState()
 {

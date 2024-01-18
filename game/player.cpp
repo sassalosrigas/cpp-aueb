@@ -3,7 +3,7 @@
 #include "gamestate.h"
 #include "util.h"
 #include "level.h"
-#include "projectile.h"
+#include "ribbon.h"
 #include "iostream"
 using namespace std;
 #include <thread>
@@ -38,11 +38,11 @@ void Player::movePlayer(float ms) {
 	m_pos_y += m_vy * speed;
 	if (graphics::getKeyState(graphics::SCANCODE_SPACE)){
 		if (can_shoot) {
-			projectiles.push_back(std::make_unique<Projectile>(m_pos_x, m_pos_y, 1.0f, 1.0f));
-			projectiles[counter]->init(m_pos_x, m_pos_y);
+			ribbons.push_back(std::make_unique<Ribbon>(m_pos_x, m_pos_y, 1.0f, 1.0f));
+			ribbons[counter]->init(m_pos_x, m_pos_y);
 			//cout << projectiles.size();
 			if (left) {
-				projectiles[counter]->setLeft();
+				ribbons[counter]->setLeft();
 			}
 			counter++;
 			can_shoot = false;
@@ -64,16 +64,16 @@ void Player::update(float ms)
 			shoot_cooldown = 1.0f;
 		}
 	}
-	if (projectiles.size() >= 1) {
-		for (int i = 0; i < projectiles.size(); i++) {
-			projectiles[i]->update(ms);
+	if (ribbons.size() >= 1) {
+		for (int i = 0; i < ribbons.size(); i++) {
+			ribbons[i]->update(ms);
 		}
 	}
-	projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(),
-		[](const std::unique_ptr<Projectile>& projectile) {
-			return projectile->outOfRange();
-		}), projectiles.end());
-	counter = projectiles.size();
+	ribbons.erase(std::remove_if(ribbons.begin(), ribbons.end(),
+		[](const std::unique_ptr<Ribbon>& ribbon) {
+			return ribbon->outOfRange();
+		}), ribbons.end());
+	counter = ribbons.size();
 	/*if (deltaTime >= 1000) {
 		for (int i = 0; i < projectiles.size(); i++) {
 			cout << "PROJECTILE " << i << " " << projectiles[i]->posX() << endl;
@@ -131,9 +131,9 @@ void Player::draw()
 	if (m_state->m_debug_mode) {
 		debugDraw();
 	}
-	if (projectiles.size() >= 1) {
-		for (int i = 0; i < projectiles.size(); i++) {
-			projectiles[i]->draw();
+	if (ribbons.size() >= 1) {
+		for (int i = 0; i < ribbons.size(); i++) {
+			ribbons[i]->draw();
  		}
 	}
 	

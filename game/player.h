@@ -4,7 +4,7 @@
 #include "box.h"
 #include <sgg/graphics.h>
 #include "level.h"
-#include "projectile.h"
+#include "ribbon.h"
 #include <memory>
 #include <vector>
 #include <iostream>
@@ -28,7 +28,7 @@ class Player : public GameObject, public Box
 public:
 	float m_vx = 0.0f;
 	float m_vy = 0.0f;
-	std::vector<std::unique_ptr<Projectile>> projectiles;
+	std::vector<std::unique_ptr<Ribbon>> ribbons;
 	Player(std::string name) : GameObject(name) {}
 	void init() override;
 	void draw() override;

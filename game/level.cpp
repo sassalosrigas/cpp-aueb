@@ -5,8 +5,8 @@
 #include "util.h"
 #include <chrono>
 #include <thread>
-#include "enemy.h"
-#include "projectile.h"
+#include "flyingpuppy.h"
+#include "ribbon.h"
 
 void Level::drawBlock(int i)
 {
@@ -23,11 +23,11 @@ void Level::drawBlock(int i)
 }
 
 void Level::drawEnemy(int i) {
-	Enemy& e = m_enemies[i];
+	FlyingPuppy& p = m_enemies[i];
 	std::string& name = m_enemy_names[i];
 	
-	float x = e.getPosX() + m_state->m_global_offset_x;
-	float y = e.getPosY() + m_state->m_global_offset_y;
+	float x = p.getPosX() + m_state->m_global_offset_x;
+	float y = p.getPosY() + m_state->m_global_offset_y;
 	m_brush_enemy.texture = m_state->getFullAssetPath(m_enemy_names[i]);
 	//graphics::drawRect(m_state->getCanvasWidth()*0.5f, m_state->getCanvasHeight() * 0.5f, 1.0f, 1.0f, m_brush_enemy);
 	graphics::drawRect(x, y,1.0f, 1.0f, m_brush_enemy);
@@ -45,9 +45,9 @@ void Level::checkCollisions()
 		}
 	}
 
-	for (const auto& projectile : m_state->getPlayer()->projectiles){
+	for (const auto& ribbon : m_state->getPlayer()->ribbons){
 		for (auto& enemy : m_enemies) {
-			if (projectile->intersect(enemy)) {
+			if (ribbon->intersect(enemy)) {
 				printf("*");
 			}
 		}
@@ -208,7 +208,7 @@ void Level::init()
 	//m_blocks.push_back(Enemy(7*m_block_size, 0*m_block_size, m_block_size, m_block_size));
 
 
-	m_enemies.push_back(Enemy(1.0f,14.0f,1.0f,1.0f));
+	m_enemies.push_back(FlyingPuppy(1.0f,14.0f,1.0f,1.0f));
 	m_enemies[0].init();
 	
 	

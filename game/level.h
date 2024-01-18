@@ -4,7 +4,7 @@
 #include <list>
 #include <string>
 #include "player.h"
-#include "enemy.h"
+#include "flyingpuppy.h"
 #include "projectile.h"
 
 class Level : public GameObject
@@ -33,7 +33,7 @@ class Level : public GameObject
 public:
 	std::vector<Box> m_blocks;
 	std::vector<std::string> m_block_names;
-	std::vector<Enemy> m_enemies;
+	std::vector<FlyingPuppy> m_enemies;
 	std::vector<std::string> m_enemy_names;
 	class Projectile* t;
 	void update(float ms) override;
