@@ -41,23 +41,25 @@ void Level::drawEnemy(int i) {
 
 void Level::checkCollisions()
 {
-	for(int i = 0;i<puppies.size();i++){
+	for (int i = 0; i<puppies.size(); i++) {
 		auto& p = puppies[i];
-		if (m_state->getPlayer()->intersect()) {
+		if (m_state->getPlayer()->intersect(*p)) {
 			printf("*");
 			break;
 		}
 	}
-
+	
 	for (const auto& ribbon : m_state->getPlayer()->ribbons){
-		for (auto& enemy : m_enemies) {
-			if (ribbon->intersect(enemy)) {
+		for (auto& puppy : puppies) {
+			if (ribbon->intersect(*puppy)) {
 				printf("*");
-				enemy.health_p -= 0.5f;
-				cout << enemy.health_p;
+				puppy->health_p -= 0.5f;
+				cout << puppy->health_p;
+				break;
 			}
 		}
 	}
+
 
 
 
