@@ -6,3 +6,12 @@
 /game/bin
 /game/x64\Debug
 /game/.vs/game/v17/.suo
+*.tlog
+/game/x64/Debug/game.tlog/unsuccessfulbuild
+*.obj
+*.ilk
+/game/x64/Debug/game.log
+*.idb
+*.pdb
+/game/x64/Debug/game.log
+/game/x64/Debug/game.tlog/unsuccessfulbuild
