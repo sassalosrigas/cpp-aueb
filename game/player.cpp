@@ -68,9 +68,6 @@ void Player::update(float ms)
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
 
-	m_healthBar.setCurrentHealth(1.0f);
-	m_healthBar.draw(m_state->getCanvasWidth(), m_state->getCanvasHeight());
-
 	GameObject::update(ms);
 }
 
@@ -80,6 +77,7 @@ void Player::init()
 	m_pos_y = 5.0f;
 	m_width /= 1.4f;
 	m_height /= 1.2f;
+	m_health = 1.0f;
 
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
@@ -115,6 +113,7 @@ void Player::draw()
 		
 
 	graphics::drawRect(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.5f, 1.0f, 1.0f, m_brush_player);
+	drawLife();
 	if (m_state->m_debug_mode) {
 		debugDraw();
 	}
@@ -134,3 +133,71 @@ void Player::debugDraw() {
 	debug_brush.fill_opacity = 1.0f;
 	graphics::drawText(m_state->getCanvasWidth() * 0.5f - 0.4f, m_state->getCanvasHeight() * 0.5f - 0.6f, 0.15f, s, debug_brush);
 }
+
+void Player::drawLife()
+{
+	graphics::Brush br_life;
+	SETCOLOR(br_life.fill_color, 1, 0.3f, 0.3f);
+	graphics::setScale(scaledirection, 1.0f);
+	br_life.outline_opacity = 1.0f;
+	br_life.outline_color[0] = 0.0f;
+	br_life.outline_color[1] = 0.0f;
+	br_life.outline_color[2] = 0.0f;
+	br_life.fill_color[0] = 1.0f;
+	br_life.fill_color[1] = 0.3f;
+	br_life.fill_color[2] = 0.3f;
+	br_life.fill_secondary_color[0] = 0.8f;
+	br_life.fill_secondary_color[1] = 1.0f;
+	br_life.fill_secondary_color[2] = 0.0f;
+	br_life.gradient = true;
+	br_life.gradient_dir_u = 1.0f;
+	br_life.gradient_dir_v = 0.0f;
+	if (scaledirection == -1) {
+		graphics::drawRect((m_state->getCanvasWidth() - 100) - (life * 500) / 2, 80, life * 500, 50, br_life);
+	}
+	else {
+		graphics::drawRect(100 + (life * 500) / 2, 80, life * 500, 50, br_life);
+	}
+	br_life.gradient = false;
+	br_life.fill_opacity = 0.3f;
+	if (scaledirection == -1) {
+		graphics::drawRect(m_state->getCanvasWidth() - 350, 80, 500, 50, br_life);
+	}
+	else {
+		graphics::drawRect(350, 80, 500, 50, br_life);
+	}
+	br_life.outline_opacity = 0.0f;
+	br_life.outline_color[0] = 1.0f;
+	br_life.outline_color[1] = 1.0f;
+	br_life.outline_color[2] = 1.0f;
+	br_life.fill_color[1] = 1.0f;
+	br_life.fill_color[2] = 1.0f;
+	br_life.fill_secondary_color[0] = 1.0f;
+	br_life.fill_secondary_color[2] = 1.0f;
+	br_life.fill_opacity = 1.0f;
+	br_life.outline_opacity = 0.0f;
+	if (scaledirection == -1) {
+		graphics::drawRect(m_state->getCanvasWidth() - 50, 55, 100, 100, br_life);
+	}
+	else {
+		graphics::drawRect(50, 55, 100, 100, br_life);
+	}
+}
+
+/*void Player::drainLife(const float amount) {
+	life = std::max<float>(0.0f, life - amount);
+	if (amount == 0.04f && duration == 0)
+	{
+		graphics::playSound(std::string(ASSET_PATH) + "punch.wav", 0.5f);
+	}
+	else if (amount == 0.01f && duration == 0)
+	{
+		graphics::playSound(std::string(ASSET_PATH) + "attack_block.wav", 0.5f);
+	}
+}*/
+
+void Player::setLife()
+{
+	life = 1.0f;
+}
+

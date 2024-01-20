@@ -5,6 +5,7 @@
 #include <string>
 #include "player.h"
 #include "enemy.h"
+#include "blocks.h"
 
 class Level : public GameObject
 {
