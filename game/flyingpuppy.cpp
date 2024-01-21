@@ -46,7 +46,7 @@ void FlyingPuppy::update(float ms){
 
 		lastUpdateTime = currentTime;
 	}
-   
+	
 	GameObject::update(ms);
 }
 

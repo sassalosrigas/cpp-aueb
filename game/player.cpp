@@ -58,7 +58,7 @@ void Player::update(float ms)
 	auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastUpdateTime).count();
 	movePlayer(ms);		
 	if (!can_shoot) {
-		shoot_cooldown -= ms / 1000.0f;
+		shoot_cooldown -= ms / 400.00f;
 		if (shoot_cooldown <= 0) {
 			can_shoot = true;
 			shoot_cooldown = 1.0f;
@@ -71,7 +71,7 @@ void Player::update(float ms)
 	}
 	ribbons.erase(std::remove_if(ribbons.begin(), ribbons.end(),
 		[](const std::unique_ptr<Ribbon>& ribbon) {
-			return ribbon->outOfRange();
+			return ribbon->outOfRange() || ribbon -> toRemove;
 		}), ribbons.end());
 	counter = ribbons.size();
 	/*if (deltaTime >= 1000) {

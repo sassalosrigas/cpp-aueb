@@ -53,8 +53,9 @@ void Level::checkCollisions()
 		for (auto& puppy : puppies) {
 			if (ribbon->intersect(*puppy)) {
 				printf("*");
-				puppy->health_p -= 0.5f;
+				puppy->health_p -= 50.0f;
 				cout << puppy->health_p;
+				ribbon->toRemove = true;
 				break;
 			}
 		}
@@ -92,6 +93,10 @@ void Level::update(float ms)
 		p->update(ms);
 
 	}
+	puppies.erase(std::remove_if(puppies.begin(), puppies.end(),
+		[](const std::unique_ptr<FlyingPuppy>& puppy) {
+			return puppy->isDead();
+		}), puppies.end());
 
 	checkCollisions();
 

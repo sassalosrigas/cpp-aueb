@@ -27,6 +27,10 @@ public:
 	float getPosY() {
 		return m_pos_y;
 	}
+
+	bool isDead() {
+		return health_p <= 0;
+	}
 	void debugDrawFLP();
 	~FlyingPuppy() {};
 

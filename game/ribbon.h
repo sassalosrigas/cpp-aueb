@@ -17,4 +17,5 @@ public:
     void update(float ms) override;
     void debugDrawProj();
     graphics::Brush m_brush_ribbon;
+    bool toRemove = false;
 };
