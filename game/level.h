@@ -4,6 +4,8 @@
 #include <list>
 #include <string>
 #include "player.h"
+#include "enemy.h"
+#include "blocks.h"
 
 class Level : public GameObject
 {
@@ -15,17 +17,24 @@ class Level : public GameObject
 	std::vector<GameObject*> m_static_object;
 	std::vector<GameObject*> m_dynamic_object;
 
-	std::vector<Box> m_blocks;
-	std::vector<std::string> m_block_names;
 	const float m_block_size = 1.0f;
 	graphics::Brush m_brush_block;
 	graphics::Brush m_brush_block_debug;
+	graphics::Brush m_brush_enemy;
+	graphics::Brush m_brush_enemy_debug;
 
 	void drawBlock(int i);
+	void drawEnemy(int i);
 
 	void checkCollisions();
 
+	std::vector<Box> getVec();
+
 public:
+	std::vector<Box> m_blocks;
+	std::vector<std::string> m_block_names;
+	std::vector<Enemy> m_enemies;
+	std::vector<std::string> m_enemy_names;
 	void update(float ms) override;
 	void draw() override;
 	void init() override;
