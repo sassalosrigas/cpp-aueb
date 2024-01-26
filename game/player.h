@@ -26,6 +26,8 @@ class Player : public GameObject, public Box
 	float shoot_cooldown = 0.0f;
 
 public:
+	bool collisionDet = false;
+	float health_self = 100.0f;
 	float m_vx = 0.0f;
 	float m_vy = 0.0f;
 	std::vector<std::unique_ptr<Ribbon>> ribbons;
@@ -46,4 +48,5 @@ public:
 
 protected:
 	void debugDraw();
+	void drawText();
 };

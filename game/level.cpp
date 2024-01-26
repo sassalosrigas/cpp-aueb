@@ -41,15 +41,18 @@ void Level::drawEnemy(int i) {
 
 void Level::checkCollisions()
 {
+	auto* player = m_state->getPlayer();
+
 	for (int i = 0; i<puppies.size(); i++) {
 		auto& p = puppies[i];
-		if (m_state->getPlayer()->intersect(*p)) {
+		if (player->intersect(*p)) {
+			player->health_self -= 5.0f;
 			printf("*");
 			break;
 		}
 	}
 	
-	for (const auto& ribbon : m_state->getPlayer()->ribbons){
+	for (const auto& ribbon : player->ribbons){
 		for (auto& puppy : puppies) {
 			if (ribbon->intersect(*puppy)) {
 				printf("*");
@@ -66,7 +69,7 @@ void Level::checkCollisions()
 
 	for (auto& block : m_blocks) {
 		float offset = 0.0f;
-		if (offset = m_state->getPlayer()->intersectDown(block)) {
+		if (offset = player->intersectDown(block)) {
 			m_state->getPlayer()->m_pos_y += offset;
 			m_state->getPlayer()->m_vy = 0.0f;
 			break;
@@ -75,13 +78,18 @@ void Level::checkCollisions()
 	for (auto& block : m_blocks)
 	{	
 		float offset = 0.0f;
-		if (offset = m_state->getPlayer()->intersectSideways(block))
-		{
-			m_state->getPlayer()->m_pos_x += offset *2.0f;
-			m_state->getPlayer()->m_vx = 0.0f;
+		if (offset = player->intersectSideways(block))
+		{	
+			player->m_pos_x += offset * 2.0f;
+			player->m_vx = 0.0f;
+			const float gravity = 0.2f;
+			player->m_pos_y += gravity;
+			player->collisionDet = true;
+			cout << "S";
 			break;
 		}
 	}
+	player->collisionDet = false;
 	
 }
 
@@ -124,7 +132,7 @@ void Level::draw()
 		p->draw();
 	}
 
-
+ 
 	if (m_state->getPlayer()->isActive()) {
 		m_state->getPlayer()->draw();
 	}
