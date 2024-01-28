@@ -28,7 +28,7 @@ public:
 	bool m_debug_mode = false;
 	class Level* m_current_level = 0;
 	class Player* m_player = 0;
-	class Enemy* m_enemy = 0;
+	class HealthBar* hp = 0;
 	bool init();
 	void draw();
 	void update(float ms); 
@@ -43,6 +43,6 @@ public:
 	std::string getFullAssetPath(std::string asset);
 
 	class Player* getPlayer() { return m_player; }
-	class Enemy* getEnemy() { return m_enemy; }
+	class HealthBar* getBar() { return hp; }
 
 };

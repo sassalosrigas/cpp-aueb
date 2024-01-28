@@ -27,7 +27,6 @@ class Player : public GameObject, public Box
 	float shoot_cooldown = 0.0f;
 
 public:
-	class HealthBar hp;
 	bool collisionDet = false;
 	float health_self = 100.0f;
 	float m_vx = 0.0f;
