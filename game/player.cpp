@@ -1,14 +1,17 @@
-#include "player.h"
+#pragma once
 #include <sgg/graphics.h>
 #include "gamestate.h"
 #include "util.h"
 #include "level.h"
+#include "player.h"
 #include "ribbon.h"
-#include "iostream"
-using namespace std;
 #include <thread>
 #include <chrono>
 #include <cmath>
+#include "iostream"
+using namespace std;
+#include "healthbar.h"
+
 
 
 void Player::movePlayer(float ms) {
@@ -99,14 +102,11 @@ void Player::init()
 	m_pos_y = 5.0f;
 	m_width /= 1.4f;
 	m_height /= 1.2f;
-
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
-
 	m_brush_player.fill_opacity = 1.0f;
 	m_brush_player.outline_opacity = 0.0f;
 	m_brush_player.texture = m_state->getFullAssetPath("hk0.png");
-
 	//m_spritesR.push_back(m_state->getFullAssetPath("hk0.png"));
 	m_spritesR.push_back(m_state->getFullAssetPath("hk-right2.png"));
 	m_spritesR.push_back(m_state->getFullAssetPath("hk-right1.png"));
@@ -117,7 +117,8 @@ void Player::init()
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left2.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left3.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left4.png"));
-	
+	//hp = new HealthBar();
+	//hp->init();
 }
 
 void Player::draw()
@@ -136,11 +137,13 @@ void Player::draw()
 	if (m_state->m_debug_mode) {
 		debugDraw();
 	}
+	//hp->draw();
 	if (ribbons.size() >= 1) {
 		for (int i = 0; i < ribbons.size(); i++) {
 			ribbons[i]->draw();
  		}
 	}
+	
 }
 
 void Player::debugDraw() {

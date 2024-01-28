@@ -2,7 +2,7 @@
 #include "box.h"
 #include <sgg/graphics.h>
 #include "gamestate.h"
-#include "gamestate.h"
+#include "gameobject.h"
 #include "util.h"
 
 

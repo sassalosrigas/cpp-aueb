@@ -50,6 +50,12 @@ struct Box
             return std::min<float>(0.0f, other.m_pos_x - (other.m_width / 2.0f) - m_pos_x - (m_width / 2.0f));
     }
 
+    float intersectUp(Box& other) {
+        if (fabs(m_pos_x - other.m_pos_x) * 2.0f >= (m_width + other.m_width) || m_pos_y < other.m_pos_y)
+            return 0.0f;
+
+        return std::min<float>(0.0f, m_pos_y - (m_height / 2.0f) - other.m_pos_y - (other.m_height / 2.0f));
+    }
     /** Default ctor
     */
     Box() {}

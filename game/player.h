@@ -1,5 +1,4 @@
 #pragma once
-
 #include "gameobject.h"
 #include "box.h"
 #include <sgg/graphics.h>
@@ -8,6 +7,8 @@
 #include <memory>
 #include <vector>
 #include <iostream>
+using namespace std;
+#include "healthbar.h"
 
 class Player : public GameObject, public Box
 {
@@ -26,6 +27,7 @@ class Player : public GameObject, public Box
 	float shoot_cooldown = 0.0f;
 
 public:
+	class HealthBar hp;
 	bool collisionDet = false;
 	float health_self = 100.0f;
 	float m_vx = 0.0f;
@@ -48,5 +50,4 @@ public:
 
 protected:
 	void debugDraw();
-	void drawText();
 };

@@ -12,6 +12,7 @@
 #include <iostream>
 using namespace std;
 
+
 void Level::drawBlock(int i)
 {
 	Box& box = m_blocks[i];
@@ -62,10 +63,23 @@ void Level::checkCollisions()
 				break;
 			}
 		}
+		for (auto& block : m_blocks) {
+			if (ribbon->intersect(block)) {
+				ribbon->toRemove = true;
+				break;
+			}
+		}
 	}
 
 
-
+	for (auto& block : m_blocks) {
+		float offset = 0.0f;
+		if (offset = player->intersectUp(block)) {
+			m_state->getPlayer()->m_pos_y -= offset;
+			m_state->getPlayer()->m_vy = 0.0f;
+			break;
+		}
+	}
 
 	for (auto& block : m_blocks) {
 		float offset = 0.0f;
@@ -230,10 +244,8 @@ void Level::init()
 	//m_blocks.push_back(Enemy(7*m_block_size, 0*m_block_size, m_block_size, m_block_size));
 
 
-	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f,14.0f,1.0f,1.0f));
+	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f,14.0f,1.0f,1.0f,true,4.0f));
 	puppies[0]->init();
-	
-	
 	for (int i = 1; i <= 66; i++) {
 		m_block_names.push_back("block.png");
 	}

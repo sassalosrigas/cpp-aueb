@@ -12,11 +12,23 @@ void FlyingPuppy::init() {
 	m_height /= 1.2f;
 	m_brush_FlyingPup.fill_opacity = 1.0f;
 	m_brush_FlyingPup.outline_opacity = 0.0f;
+	if (right) {
+		m_brush_FlyingPup.texture = m_state->getFullAssetPath("puppies-flyr1.png");
+		form = 0;
+	}
+	else {
+		m_brush_FlyingPup.texture = m_state->getFullAssetPath("puppies-flyl1.png");
+		form = 4;
+	}
 	m_brush_FlyingPup.texture = m_state->getFullAssetPath("puppies-flyr1.png");
 	m_spritesFlyingPup.push_back(m_state->getFullAssetPath("puppies-flyr1.png"));
 	m_spritesFlyingPup.push_back(m_state->getFullAssetPath("puppies-flyr2.png"));
 	m_spritesFlyingPup.push_back(m_state->getFullAssetPath("puppies-flyr3.png"));
 	m_spritesFlyingPup.push_back(m_state->getFullAssetPath("puppies-flyr4.png"));
+	m_spritesFlyingPup.push_back(m_state->getFullAssetPath("puppies-flyl1.png"));
+	m_spritesFlyingPup.push_back(m_state->getFullAssetPath("puppies-flyl2.png"));
+	m_spritesFlyingPup.push_back(m_state->getFullAssetPath("puppies-flyl3.png"));
+	m_spritesFlyingPup.push_back(m_state->getFullAssetPath("puppies-flyl4.png"));
 	form = 0;
 
 }
@@ -40,13 +52,20 @@ void FlyingPuppy::update(float ms){
 	auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastUpdateTime).count();
 	if (deltaTime >= 100) {
 		form++;
-		if (form >= m_spritesFlyingPup.size()) {
-			form = 0;
+		if (right) {
+			if (form > 3) {
+				form = 0;
+			}
 		}
-
+		else {
+			if (form >= m_spritesFlyingPup.size()) {
+				form = 4;
+			}
+		}
+	
 		lastUpdateTime = currentTime;
 	}
-	
+	movePup();
 	GameObject::update(ms);
 }
 
