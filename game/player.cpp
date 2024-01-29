@@ -80,14 +80,6 @@ void Player::update(float ms)
 			return ribbon->outOfRange() || ribbon -> toRemove;
 		}), ribbons.end());
 	counter = ribbons.size();
-	/*if (deltaTime >= 1000) {
-		for (int i = 0; i < projectiles.size(); i++) {
-			cout << "PROJECTILE " << i << " " << projectiles[i]->posX() << endl;
-			cout << "PLAYER" << m_pos_x << endl;
-		}
-		lastUpdateTime = currentTime;
-	}
-	*/
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
 	//if (health_self <= 0.0f) {
@@ -115,8 +107,7 @@ void Player::init()
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left2.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left3.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left4.png"));
-	//hp = new HealthBar();
-	//hp->init();
+	
 }
 
 void Player::draw()

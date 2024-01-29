@@ -21,6 +21,7 @@ public:
 	bool can_shoot = false;
 	float shoot_cooldown = 0.0f;
 	bool right;
+	bool dying = false;
 	float health_n = 100.0f;
 	std::vector<std::unique_ptr<Fireball>> fireballs;
 	Necromancer(float x, float y, float w, float h, bool r)

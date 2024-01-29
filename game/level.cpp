@@ -139,7 +139,7 @@ void Level::update(float ms)
 
 	necromancers.erase(std::remove_if(necromancers.begin(), necromancers.end(),
 		[](const std::unique_ptr<Necromancer>& necromancer) {
-			return necromancer->isDead();
+			return necromancer->isDead() && necromancer->dying == true;
 		}), necromancers.end());
 
 	checkCollisions();
