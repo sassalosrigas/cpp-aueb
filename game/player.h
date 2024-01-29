@@ -8,7 +8,7 @@
 #include <vector>
 #include <iostream>
 using namespace std;
-#include "healthbar.h"
+
 
 class Player : public GameObject, public Box
 {

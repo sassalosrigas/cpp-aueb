@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "box.h"
 #include <sgg/graphics.h>
 #include "gamestate.h"

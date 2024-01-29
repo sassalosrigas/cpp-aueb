@@ -1,3 +1,5 @@
+#pragma once 
+#include "box.h"
 #include "level.h"
 #include "gamestate.h"
 #include "player.h"
@@ -9,6 +11,7 @@
 #include "ribbon.h"
 #include <memory>
 #include <vector>
+#include "necromancer.h"
 #include <iostream>
 using namespace std;
 
@@ -27,18 +30,6 @@ void Level::drawBlock(int i)
 		graphics::drawRect(x, y, m_block_size, m_block_size, m_brush_block_debug);
 }
 
-void Level::drawEnemy(int i) {
-	FlyingPuppy& p = *puppies[i];
-	std::string& name = m_enemy_names[i];
-	
-	float x = p.getPosX() + m_state->m_global_offset_x;
-	float y = p.getPosY() + m_state->m_global_offset_y;
-	m_brush_puppies.texture = m_state->getFullAssetPath(m_enemy_names[i]);
-	//graphics::drawRect(m_state->getCanvasWidth()*0.5f, m_state->getCanvasHeight() * 0.5f, 1.0f, 1.0f, m_brush_enemy);
-	graphics::drawRect(x, y,1.0f, 1.0f, m_brush_puppies);
-	if (m_state->m_debug_mode)
-		graphics::drawRect(x, y, 1.0f, 1.0f, m_brush_block_debug);
-}
 
 void Level::checkCollisions()
 {
@@ -53,7 +44,7 @@ void Level::checkCollisions()
 		}
 	}
 	
-	for (const auto& ribbon : player->ribbons){
+	for (const auto& ribbon : player->ribbons) {
 		for (auto& puppy : puppies) {
 			if (ribbon->intersect(*puppy)) {
 				printf("*");
@@ -69,42 +60,65 @@ void Level::checkCollisions()
 				break;
 			}
 		}
-	}
+		for (auto& necromancer : necromancers) {
+			if (ribbon->intersect(*necromancer)) {
+				necromancer->health_n -= 50.0f;
+				ribbon->toRemove = true;
+				break;
+			}
+		}
+		for (auto& necromancer : necromancers) {
+			for (const auto& fireball : necromancer->fireballs) {
+				if (fireball->intersect(*player)) {
+					cout << "woah";
+					fireball->toRemove = true;
+					break;
+				}
+				for (auto& block : m_blocks) {
+					if (fireball->intersect(block)) {
+						cout << "block";
+						fireball->toRemove = true;;
+						break;
+					}
+				}
+			}
 
-
-	for (auto& block : m_blocks) {
-		float offset = 0.0f;
-		if (offset = player->intersectUp(block)) {
-			m_state->getPlayer()->m_pos_y -= offset;
-			m_state->getPlayer()->m_vy = 0.0f;
-			break;
 		}
 	}
 
-	for (auto& block : m_blocks) {
-		float offset = 0.0f;
-		if (offset = player->intersectDown(block)) {
-			m_state->getPlayer()->m_pos_y += offset;
-			m_state->getPlayer()->m_vy = 0.0f;
-			break;
+		for (auto& block : m_blocks) {
+			float offset = 0.0f;
+			if (offset = player->intersectUp(block)) {
+				m_state->getPlayer()->m_pos_y -= offset;
+				m_state->getPlayer()->m_vy = 0.0f;
+				break;
+			}
 		}
-	}
-	for (auto& block : m_blocks)
-	{	
-		float offset = 0.0f;
-		if (offset = player->intersectSideways(block))
-		{	
-			player->m_pos_x += offset * 2.0f;
-			player->m_vx = 0.0f;
-			const float gravity = 0.2f;
-			player->m_pos_y += gravity;
-			player->collisionDet = true;
-			cout << "S";
-			break;
+
+		for (auto& block : m_blocks) {
+			float offset = 0.0f;
+			if (offset = player->intersectDown(block)) {
+				m_state->getPlayer()->m_pos_y += offset;
+				m_state->getPlayer()->m_vy = 0.0f;
+				break;
+			}
 		}
-	}
-	player->collisionDet = false;
+		for (auto& block : m_blocks)
+		{
+			float offset = 0.0f;
+			if (offset = player->intersectSideways(block))
+			{
+				player->m_pos_x += offset * 2.0f;
+				player->m_vx = 0.0f;
+				const float gravity = 0.2f;
+				player->m_pos_y += gravity;
+				player->collisionDet = true;
+				break;
+			}
+		}
+
 	
+		player->collisionDet = false;
 }
 
 void Level::update(float ms)
@@ -115,10 +129,18 @@ void Level::update(float ms)
 		p->update(ms);
 
 	}
+	for (auto& n : necromancers) {
+		n->update(ms);
+	}
 	puppies.erase(std::remove_if(puppies.begin(), puppies.end(),
 		[](const std::unique_ptr<FlyingPuppy>& puppy) {
 			return puppy->isDead();
 		}), puppies.end());
+
+	necromancers.erase(std::remove_if(necromancers.begin(), necromancers.end(),
+		[](const std::unique_ptr<Necromancer>& necromancer) {
+			return necromancer->isDead();
+		}), necromancers.end());
 
 	checkCollisions();
 
@@ -145,7 +167,10 @@ void Level::draw()
 	for (auto& p : puppies) {
 		p->draw();
 	}
-
+	for (auto& n : necromancers) {
+		n->draw();
+	}
+	
  
 	if (m_state->getPlayer()->isActive()) {
 		m_state->getPlayer()->draw();
@@ -241,11 +266,14 @@ void Level::init()
 	m_blocks.push_back(Box(6 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
 	m_blocks.push_back(Box(7 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
 	m_blocks.push_back(Box(8 * m_block_size, -1 * m_block_size, m_block_size, m_block_size));
-	//m_blocks.push_back(Enemy(7*m_block_size, 0*m_block_size, m_block_size, m_block_size));
-
 
 	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f,14.0f,1.0f,1.0f,true,4.0f));
 	puppies[0]->init();
+	necromancers.push_back(std::make_unique<Necromancer>(5.0f, 14.0f, 1.0f, 1.0f,false));
+	for (auto& n : necromancers) {
+		n->init();
+	}
+
 	for (int i = 1; i <= 66; i++) {
 		m_block_names.push_back("block.png");
 	}
@@ -253,11 +281,6 @@ void Level::init()
 	m_brush_block_debug.fill_opacity = 0.1f;
 	SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
 	SETCOLOR(m_brush_block.outline_color, 0.3f, 1.0f, 0.2f);
-
-	m_brush_puppies.outline_opacity = 0.0f;
-	//m_brush_block_debug.fill_opacity = 0.1f;
-	//SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
-	SETCOLOR(m_brush_puppies.outline_color, 0.3f, 1.0f, 0.2f);
 
 
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "box.h"
 #include <sgg/graphics.h>>
 #include <list>
 #include <string>
@@ -7,7 +8,9 @@
 #include "projectile.h"
 #include <memory>
 #include <vector>
+#include "necromancer.h"
 #include <iostream>
+using namespace std;
 
 class Level : public GameObject
 {
@@ -22,23 +25,18 @@ class Level : public GameObject
 	const float m_block_size = 1.0f;
 	graphics::Brush m_brush_block;
 	graphics::Brush m_brush_block_debug;
-	graphics::Brush m_brush_puppies;
-	graphics::Brush m_brush_puppies_debug;
+	
+	std::vector<std::unique_ptr<Necromancer>> necromancers;
 	std::vector<std::unique_ptr<FlyingPuppy>> puppies;
-
+	//std::vector<std::unique_ptr<Necromancer>> necromancers;
+	//graphics::Brush m_brush_necromancers;
 	void drawBlock(int i);
-	void drawEnemy(int i);
 
 	void checkCollisions();
-
-	std::vector<Box> getVec();
-
 public:
 	std::vector<Box> m_blocks;
 	std::vector<std::string> m_block_names;
-	std::vector<FlyingPuppy> m_enemies;
-	std::vector<std::string> m_enemy_names;
-	class Projectile* t;
+
 	void update(float ms) override;
 	void draw() override;
 	void init() override;

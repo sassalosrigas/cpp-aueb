@@ -79,9 +79,9 @@ void FlyingPuppy::debugDrawFLP() {
 	float y = getPosY() + m_state->m_global_offset_y;
 	graphics::drawRect(x, y, m_width, m_height, debug_brush);
 	char s[20];
-	sprintf_s(s, "(%5.2f, %5.2f", m_pos_x, m_pos_y);
+	sprintf_s(s, "(%5.2f, %5.2f", x, y);
 	SETCOLOR(debug_brush.fill_color, 1, 0, 0);
 	debug_brush.fill_opacity = 1.0f;
-	graphics::drawText(m_state->getCanvasWidth() * 0.5f - 0.4f, m_state->getCanvasHeight() * 0.5f - 0.6f, 0.15f, s, debug_brush);
+	graphics::drawText(x - 0.4f, y - 0.6f, 0.15f, s, debug_brush);
 }
 

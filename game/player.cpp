@@ -10,7 +10,7 @@
 #include <cmath>
 #include "iostream"
 using namespace std;
-#include "healthbar.h"
+
 
 
 
@@ -107,12 +107,10 @@ void Player::init()
 	m_brush_player.fill_opacity = 1.0f;
 	m_brush_player.outline_opacity = 0.0f;
 	m_brush_player.texture = m_state->getFullAssetPath("hk0.png");
-	//m_spritesR.push_back(m_state->getFullAssetPath("hk0.png"));
 	m_spritesR.push_back(m_state->getFullAssetPath("hk-right2.png"));
 	m_spritesR.push_back(m_state->getFullAssetPath("hk-right1.png"));
 	m_spritesR.push_back(m_state->getFullAssetPath("hk-right3.png"));
 	m_spritesR.push_back(m_state->getFullAssetPath("hk-right4.png"));
-	//m_spritesL.push_back(m_state->getFullAssetPath("hk0.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left1.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left2.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left3.png"));
