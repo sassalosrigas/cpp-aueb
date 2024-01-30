@@ -18,4 +18,6 @@ public:
     graphics::Brush m_brush_fireball;
     bool toRemove = false;
     float speed = 0.05f;
+    bool outOfRange();
+    float dist = 0.0f;
 };

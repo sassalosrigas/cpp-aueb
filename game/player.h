@@ -25,6 +25,8 @@ class Player : public GameObject, public Box
 	bool left = false;
 	bool can_shoot = false;
 	float shoot_cooldown = 0.0f;
+	//bool canTakeDmg = false;
+	//float dmg_cooldown = 0.0f;
 
 public:
 	bool collisionDet = false;
@@ -36,17 +38,18 @@ public:
 	void init() override;
 	void draw() override;
 	void update(float ms) override;
-	/*vector<Projectile> getProj() {
-		return projectiles;
-	}
-	*/
 	float PlayerPosX() {
 		return m_pos_x;
 	}
 	float PlayerPosY() {
 		return m_pos_y;
 	}
-
+	void takeDamage(float dmg) {
+		health_self -= dmg;
+		//canTakeDmg = false;
+	}
 protected:
 	void debugDraw();
+	void drawHealth();
+	
 };

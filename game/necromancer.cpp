@@ -84,6 +84,31 @@ void Necromancer::update(float ms) {
 			shoot_cooldown = 1.0f; // Reset the cooldown for the next shot
 		}
 	}
+	/*if (health_n <= 0.0f && !dying) {
+		dying = true;
+		form = 12;
+		if (right) {
+			m_brush_Nec.texture = m_state->getFullAssetPath("NecDyingR1.png");
+			m_spritesNec.push_back("NecDyingR1.png");
+			m_spritesNec.push_back("NecDyingR2.png");
+			m_spritesNec.push_back("NecDyingR3.png");
+			m_spritesNec.push_back("NecDyingR4.png");
+			m_spritesNec.push_back("NecDyingR5.png");
+			m_spritesNec.push_back("NecDyingR6.png");
+			m_spritesNec.push_back("NecDyingR7.png");
+		}
+		else {
+			m_brush_Nec.texture = m_state->getFullAssetPath("NecDyingL1.png");
+			m_spritesNec.push_back("NecDyingL1.png");
+			m_spritesNec.push_back("NecDyingL2.png");
+			m_spritesNec.push_back("NecDyingL3.png");
+			m_spritesNec.push_back("NecDyingL4.png");
+			m_spritesNec.push_back("NecDyingL5.png");
+			m_spritesNec.push_back("NecDyingL6.png");
+			m_spritesNec.push_back("NecDyingL7.png");
+		}
+	}
+	*/
 	if (deltaTime >= 100) {
 		form++;
 		if (!dying) {
@@ -91,17 +116,12 @@ void Necromancer::update(float ms) {
 				form = 0;
 			}
 		}
-		else {
-			if (form >= 6) {
-				dying = true;
-				form = 0;
-			}
-		}
-		
+			
 		cout << fireballs.size();
 		lastUpdateTime = currentTime;
 	}
-
+	
+	
 	if (fireballs.size() >= 1) {
 		for (int i = 0; i < fireballs.size(); i++) {
 			fireballs[i]->update(ms);
@@ -112,28 +132,7 @@ void Necromancer::update(float ms) {
 			return fireball->outOfRange() || fireball->toRemove;
 		}), fireballs.end());
 	counter = fireballs.size();
-	if (health_n <= 0) {
-		m_spritesNec.clear();
-		if (right) {
-			m_spritesNec.push_back("NecDyingR1.png");
-			m_spritesNec.push_back("NecDyingR2.png");
-			m_spritesNec.push_back("NecDyingR3.png");
-			m_spritesNec.push_back("NecDyingR4.png");
-			m_spritesNec.push_back("NecDyingR5.png");
-			m_spritesNec.push_back("NecDyingR6.png");
-			m_spritesNec.push_back("NecDyingR7.png");
-		}
-		else {
-			m_spritesNec.push_back("NecDyingL1.png");
-			m_spritesNec.push_back("NecDyingL2.png");
-			m_spritesNec.push_back("NecDyingL3.png");
-			m_spritesNec.push_back("NecDyingL4.png");
-			m_spritesNec.push_back("NecDyingL5.png");
-			m_spritesNec.push_back("NecDyingL6.png");
-			m_spritesNec.push_back("NecDyingL7.png");
-		}
-		form = 0;
-	}
+	
 	GameObject::update(ms);
 }
 

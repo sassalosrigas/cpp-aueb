@@ -38,6 +38,7 @@ void Level::checkCollisions()
 	for (int i = 0; i<puppies.size(); i++) {
 		auto& p = puppies[i];
 		if (player->intersect(*p)) {
+			//player->takeDamage(5.0f);
 			player->health_self -= 5.0f;
 			printf("*");
 			break;
@@ -63,20 +64,27 @@ void Level::checkCollisions()
 		for (auto& necromancer : necromancers) {
 			if (ribbon->intersect(*necromancer)) {
 				necromancer->health_n -= 50.0f;
+				cout << "R";
 				ribbon->toRemove = true;
 				break;
 			}
+			if (player->intersect(*necromancer)) {
+				cout << "N";
+			}
 		}
+	}
 		for (auto& necromancer : necromancers) {
 			for (const auto& fireball : necromancer->fireballs) {
 				if (fireball->intersect(*player)) {
-					cout << "woah";
+					if (player->health_self > 0.0f) {
+						player->health_self -= 5.0f;
+						// player->takeDamage(25.0f);
+					}
 					fireball->toRemove = true;
 					break;
 				}
 				for (auto& block : m_blocks) {
 					if (fireball->intersect(block)) {
-						cout << "block";
 						fireball->toRemove = true;;
 						break;
 					}
@@ -84,7 +92,7 @@ void Level::checkCollisions()
 			}
 
 		}
-	}
+	
 
 		for (auto& block : m_blocks) {
 			float offset = 0.0f;
@@ -132,16 +140,17 @@ void Level::update(float ms)
 	for (auto& n : necromancers) {
 		n->update(ms);
 	}
+	
 	puppies.erase(std::remove_if(puppies.begin(), puppies.end(),
 		[](const std::unique_ptr<FlyingPuppy>& puppy) {
 			return puppy->isDead();
 		}), puppies.end());
 
-	necromancers.erase(std::remove_if(necromancers.begin(), necromancers.end(),
+	/*necromancers.erase(std::remove_if(necromancers.begin(), necromancers.end(),
 		[](const std::unique_ptr<Necromancer>& necromancer) {
 			return necromancer->isDead() && necromancer->dying == true;
 		}), necromancers.end());
-
+	*/
 	checkCollisions();
 
 	GameObject::update(ms);
@@ -270,9 +279,7 @@ void Level::init()
 	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f,14.0f,1.0f,1.0f,true,4.0f));
 	puppies[0]->init();
 	necromancers.push_back(std::make_unique<Necromancer>(5.0f, 14.0f, 1.0f, 1.0f,false));
-	for (auto& n : necromancers) {
-		n->init();
-	}
+	necromancers[0]->init();
 
 	for (int i = 1; i <= 66; i++) {
 		m_block_names.push_back("block.png");

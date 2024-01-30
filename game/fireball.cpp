@@ -40,10 +40,13 @@ void Fireball::update(float ms) {
 	else {
 		setPosX(posX() + speed);
 	}
-	
+	dist += speed;
 	GameObject::update(ms);
 }
 
+bool Fireball::outOfRange() {
+	return dist > 20.0f;
+}
 void Fireball::debugDrawProj() {
 	graphics::Brush debug_brush;
 	SETCOLOR(debug_brush.fill_color, 1, 0.3f, 0);

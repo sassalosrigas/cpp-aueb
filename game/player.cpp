@@ -58,10 +58,7 @@ void Player::movePlayer(float ms) {
 
 
 void Player::update(float ms)
-{	
-	static auto lastUpdateTime = std::chrono::high_resolution_clock::now();
-	auto currentTime = std::chrono::high_resolution_clock::now();
-	auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastUpdateTime).count();
+{
 	movePlayer(ms);		
 	if (!can_shoot) {
 		shoot_cooldown -= ms / 400.00f;
@@ -70,6 +67,14 @@ void Player::update(float ms)
 			shoot_cooldown = 1.0f;
 		}
 	}
+	/*if (!canTakeDmg) {
+		dmg_cooldown -= ms / 400.00f;
+		if (dmg_cooldown <= 0) {
+			can_shoot = true;
+			shoot_cooldown = 1.0f;
+		}
+	}
+	*/
 	if (ribbons.size() >= 1) {
 		for (int i = 0; i < ribbons.size(); i++) {
 			ribbons[i]->update(ms);
@@ -126,7 +131,7 @@ void Player::draw()
 	if (m_state->m_debug_mode) {
 		debugDraw();
 	}
-	//hp->draw();
+	//drawHealth();
 	if (ribbons.size() >= 1) {
 		for (int i = 0; i < ribbons.size(); i++) {
 			ribbons[i]->draw();
@@ -134,6 +139,24 @@ void Player::draw()
 	}
 	
 }
+void Player::drawHealth() {
+	graphics::Brush br_life;
+	SETCOLOR(br_life.fill_color, 0, 1, 0);
+	SETCOLOR(br_life.outline_color, 0, 0, 0);
+	br_life.fill_opacity = 1.0f;
+	br_life.outline_opacity = 0.0f;
+	if (health_self == 75.0f) {
+		SETCOLOR(br_life.fill_color, 0.5f, 0.8f, 0);
+	}
+	else if (health_self == 50.0f){
+		SETCOLOR(br_life.fill_color, 0.5f, 0.5f, 0);
+	}
+	else if (health_self == 25.0f) {
+		SETCOLOR(br_life.fill_color, 1, 0, 0);
+	}
+	graphics::drawRect(m_state->getCanvasWidth() * 0.5f - 2.0f, m_state->getCanvasHeight() * 0.5f - 2.0f, (health_self/100.0f), 0.3f, br_life);
+}
+
 
 void Player::debugDraw() {
 	graphics::Brush debug_brush;
