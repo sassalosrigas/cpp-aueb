@@ -23,4 +23,12 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.3313
   	C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(266,30):
   	see reference to function template instantiation 'std::unique_ptr<Necromancer,std::default_delete<Necromancer>> std::make_unique<Necromancer,int,int,float,float,bool,0>(int &&,int &&,float &&,float &&,bool &&)' being compiled
   
+  main.cpp
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\main.cpp(33,66): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+sggd.lib(AudioManager.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(AudioManager.obj)' or at ''; linking object as if no debug info
+sggd.lib(fonts.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(fonts.obj)' or at ''; linking object as if no debug info
+sggd.lib(GLbackend.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(GLbackend.obj)' or at ''; linking object as if no debug info
+sggd.lib(lodepng.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(lodepng.obj)' or at ''; linking object as if no debug info
+sggd.lib(texture.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(texture.obj)' or at ''; linking object as if no debug info
   game.vcxproj -> C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\bin\game.exe
