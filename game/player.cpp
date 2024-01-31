@@ -45,7 +45,6 @@ void Player::movePlayer(float ms) {
 			if (can_shoot) {
 				ribbons.push_back(std::make_unique<Ribbon>(m_pos_x, m_pos_y, 1.0f, 1.0f));
 				ribbons[counter]->init(m_pos_x, m_pos_y);
-				//cout << projectiles.size();
 				if (left) {
 					ribbons[counter]->setLeft();
 				}
@@ -59,7 +58,6 @@ void Player::movePlayer(float ms) {
 
 void Player::update(float ms)
 {
-	movePlayer(ms);		
 	if (!can_shoot) {
 		shoot_cooldown -= ms / 400.00f;
 		if (shoot_cooldown <= 0) {
@@ -67,29 +65,28 @@ void Player::update(float ms)
 			shoot_cooldown = 1.0f;
 		}
 	}
-	/*if (!canTakeDmg) {
+	if (!canTakeDmg) {
 		dmg_cooldown -= ms / 400.00f;
 		if (dmg_cooldown <= 0) {
-			can_shoot = true;
-			shoot_cooldown = 1.0f;
+			canTakeDmg =  true;
+			dmg_cooldown = 1.0f;
 		}
 	}
-	*/
+	
 	if (ribbons.size() >= 1) {
 		for (int i = 0; i < ribbons.size(); i++) {
 			ribbons[i]->update(ms);
 		}
+		ribbons.erase(std::remove_if(ribbons.begin(), ribbons.end(),
+			[](const std::unique_ptr<Ribbon>& ribbon) {
+				return ribbon->outOfRange() || ribbon->toRemove;
+			}), ribbons.end());
 	}
-	ribbons.erase(std::remove_if(ribbons.begin(), ribbons.end(),
-		[](const std::unique_ptr<Ribbon>& ribbon) {
-			return ribbon->outOfRange() || ribbon -> toRemove;
-		}), ribbons.end());
+	
 	counter = ribbons.size();
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
 	m_state->m_global_offset_y = m_state->getCanvasHeight() / 2.0f - m_pos_y;
-	//if (health_self <= 0.0f) {
-		//delete this;
-	//}
+	movePlayer(ms);		
 	GameObject::update(ms);
 }
 
@@ -112,6 +109,7 @@ void Player::init()
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left2.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left3.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left4.png"));
+	
 	
 }
 

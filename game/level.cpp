@@ -38,7 +38,7 @@ void Level::checkCollisions()
 	for (int i = 0; i<puppies.size(); i++) {
 		auto& p = puppies[i];
 		if (player->intersect(*p)) {
-			//player->takeDamage(5.0f);
+			player->takeDamage(5.0f);
 			player->health_self -= 5.0f;
 			printf("*");
 			break;
@@ -77,8 +77,8 @@ void Level::checkCollisions()
 			for (const auto& fireball : necromancer->fireballs) {
 				if (fireball->intersect(*player)) {
 					if (player->health_self > 0.0f) {
-						player->health_self -= 5.0f;
-						// player->takeDamage(25.0f);
+						//player->health_self -= 5.0f;
+						player->takeDamage(25.0f);
 					}
 					fireball->toRemove = true;
 					break;
@@ -185,13 +185,6 @@ void Level::draw()
 		m_state->getPlayer()->draw();
 	}
 	
-	for (auto p_gob : m_static_object)
-		if (p_gob)
-			p_gob->draw();
-
-	for (auto p_gob : m_dynamic_object)
-		if (p_gob)
-			p_gob->draw();
 }
 
 void Level::init()
