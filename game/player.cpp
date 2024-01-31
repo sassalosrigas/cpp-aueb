@@ -35,9 +35,11 @@ void Player::movePlayer(float ms) {
 			m_vx = 0;
 		}
 		m_pos_x += m_vx * speed;
-		if (m_vy == 0.0f) {
-			m_vy -= (graphics::getKeyState(graphics::SCANCODE_W) ? m_accel_vertical : 0.0f);
+		if (m_vy == 0.0f && graphics::getKeyState(graphics::SCANCODE_W)) {
+			m_vy -= m_accel_vertical;
+			graphics::playSound("assets\\kitty_jump.wav",0.5f,false);
 		}
+		
 
 		m_vy += speed * m_gravity;
 		m_pos_y += m_vy * speed;
@@ -48,6 +50,7 @@ void Player::movePlayer(float ms) {
 				if (left) {
 					ribbons[counter]->setLeft();
 				}
+				graphics::playSound("assets\\kitty_shoot.wav", 0.5f, false);
 				counter++;
 				can_shoot = false;
 			}
@@ -65,13 +68,7 @@ void Player::update(float ms)
 			shoot_cooldown = 1.0f;
 		}
 	}
-	if (!canTakeDmg) {
-		dmg_cooldown -= ms / 400.00f;
-		if (dmg_cooldown <= 0) {
-			canTakeDmg =  true;
-			dmg_cooldown = 1.0f;
-		}
-	}
+	
 	
 	if (ribbons.size() >= 1) {
 		for (int i = 0; i < ribbons.size(); i++) {
@@ -129,7 +126,7 @@ void Player::draw()
 	if (m_state->m_debug_mode) {
 		debugDraw();
 	}
-	//drawHealth();
+	drawHealth();
 	if (ribbons.size() >= 1) {
 		for (int i = 0; i < ribbons.size(); i++) {
 			ribbons[i]->draw();
@@ -139,11 +136,13 @@ void Player::draw()
 }
 void Player::drawHealth() {
 	graphics::Brush br_life;
-	SETCOLOR(br_life.fill_color, 0, 1, 0);
 	SETCOLOR(br_life.outline_color, 0, 0, 0);
 	br_life.fill_opacity = 1.0f;
 	br_life.outline_opacity = 0.0f;
-	if (health_self == 75.0f) {
+	if (health_self == 100.0f) {
+		SETCOLOR(br_life.fill_color, 0, 1, 0);
+	}
+	else if (health_self == 75.0f) {
 		SETCOLOR(br_life.fill_color, 0.5f, 0.8f, 0);
 	}
 	else if (health_self == 50.0f){
@@ -152,7 +151,7 @@ void Player::drawHealth() {
 	else if (health_self == 25.0f) {
 		SETCOLOR(br_life.fill_color, 1, 0, 0);
 	}
-	graphics::drawRect(m_state->getCanvasWidth() * 0.5f - 2.0f, m_state->getCanvasHeight() * 0.5f - 2.0f, (health_self/100.0f), 0.3f, br_life);
+	graphics::drawRect(m_state->getCanvasWidth() * 0.5f - 2.0f, m_state->getCanvasHeight() * 0.5f - 2.0f, std::max<float>(0.0f,(health_self/100.0f)), 0.3f, br_life);
 }
 
 

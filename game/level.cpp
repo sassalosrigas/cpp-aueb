@@ -38,8 +38,7 @@ void Level::checkCollisions()
 	for (int i = 0; i<puppies.size(); i++) {
 		auto& p = puppies[i];
 		if (player->intersect(*p)) {
-			player->takeDamage(5.0f);
-			player->health_self -= 5.0f;
+			//player->health_self -= 5.0f;
 			printf("*");
 			break;
 		}
@@ -64,6 +63,9 @@ void Level::checkCollisions()
 		for (auto& necromancer : necromancers) {
 			if (ribbon->intersect(*necromancer)) {
 				necromancer->health_n -= 50.0f;
+				if (necromancer->health_n <= 0.0f) {
+					necromancer->dying = true;
+				}
 				cout << "R";
 				ribbon->toRemove = true;
 				break;
@@ -77,8 +79,8 @@ void Level::checkCollisions()
 			for (const auto& fireball : necromancer->fireballs) {
 				if (fireball->intersect(*player)) {
 					if (player->health_self > 0.0f) {
-						//player->health_self -= 5.0f;
-						player->takeDamage(25.0f);
+						player->health_self -= 25.0f;
+						
 					}
 					fireball->toRemove = true;
 					break;
@@ -141,16 +143,18 @@ void Level::update(float ms)
 		n->update(ms);
 	}
 	
+	
+	
 	puppies.erase(std::remove_if(puppies.begin(), puppies.end(),
 		[](const std::unique_ptr<FlyingPuppy>& puppy) {
 			return puppy->isDead();
 		}), puppies.end());
 
-	/*necromancers.erase(std::remove_if(necromancers.begin(), necromancers.end(),
+	necromancers.erase(std::remove_if(necromancers.begin(), necromancers.end(),
 		[](const std::unique_ptr<Necromancer>& necromancer) {
-			return necromancer->isDead() && necromancer->dying == true;
+			return necromancer->isDead();
 		}), necromancers.end());
-	*/
+	
 	checkCollisions();
 
 	GameObject::update(ms);
@@ -176,9 +180,13 @@ void Level::draw()
 	for (auto& p : puppies) {
 		p->draw();
 	}
+	
 	for (auto& n : necromancers) {
-		n->draw();
+		if (n->toDelete == false) {
+			n->draw();
+		}
 	}
+	
 	
  
 	if (m_state->getPlayer()->isActive()) {
@@ -189,90 +197,42 @@ void Level::draw()
 
 void Level::init()
 {
-	for (auto p_gob : m_static_object)
-		if (p_gob)
-			p_gob->init();
+	for (int i = -2; i <= 7; i++) {
+		m_blocks.push_back(Box(i, 15, 1.0f, 1.0f));
+		m_blocks.push_back(Box(i, -1, 1.0f, 1.0f));
+	}
+	for (int i = 0; i <= 15; i++) {
+		m_blocks.push_back(Box(8, i, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-3, i, 1.0f, 1.0f));
+	}
+	m_blocks.push_back(Box(6, 14, 1.0f, 1.0f));
+	m_blocks.push_back(Box(7, 14, 1.0f, 1.0f));
+	m_blocks.push_back(Box(7, 13, 1.0f, 1.0f));
+	m_blocks.push_back(Box(5, 12, 1.0f, 1.0f));
+	m_blocks.push_back(Box(4, 12, 1.0f, 1.0f));
+	m_blocks.push_back(Box(2, 12, 1.0f, 1.0f));
+	m_blocks.push_back(Box(0, 12, 1.0f, 1.0f));
+	m_blocks.push_back(Box(-2,12, 1.0f, 1.0f));
+	m_blocks.push_back(Box(-2,11, 1.0f, 1.0f));
+	m_blocks.push_back(Box(-1,12, 1.0f, 1.0f));
+	m_blocks.push_back(Box(0, 10, 1.0f, 1.0f));
+	m_blocks.push_back(Box(1, 12, 1.0f, 1.0f));
 
-	for (auto p_gob : m_dynamic_object)
-		if (p_gob)
-			p_gob->init();
+	m_blocks.push_back(Box(0, 12, 1.0f, 1.0f));
+	
 
-	m_blocks.push_back(Box(-7*m_block_size, 15*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-6*m_block_size, 15*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-5*m_block_size, 15*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-4*m_block_size, 15*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-3*m_block_size, 15*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-2*m_block_size, 15*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-1*m_block_size, 15*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(0*m_block_size, 15*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(1*m_block_size, 15*m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(2 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(3 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(4 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(5 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(6 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(7 * m_block_size, 15 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(5 * m_block_size, 13 * m_block_size, m_block_size, m_block_size));
-
-
-	m_blocks.push_back(Box(-8 * m_block_size,15 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8* m_block_size, 14 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8* m_block_size, 13 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8* m_block_size, 12 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8* m_block_size, 11 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8* m_block_size, 10 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8* m_block_size, 9 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8* m_block_size, 8 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8* m_block_size, 7 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8* m_block_size, 6 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8 * m_block_size,5 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8 * m_block_size,4 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8 * m_block_size,3 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8 * m_block_size, 2 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8 * m_block_size, 1 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8 * m_block_size, 0 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-8 * m_block_size, -1 * m_block_size, m_block_size, m_block_size));
-
-
-	m_blocks.push_back(Box(8* m_block_size, 15 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8* m_block_size, 14 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8* m_block_size, 13 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8* m_block_size, 12 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8* m_block_size, 11 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8* m_block_size, 10 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8* m_block_size, 9 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8* m_block_size, 8 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8* m_block_size, 7 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8 * m_block_size,6 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8 * m_block_size,5 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8 * m_block_size,4 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8 * m_block_size,3 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8 * m_block_size,2 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8 * m_block_size,1 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8 * m_block_size,0 * m_block_size, m_block_size, m_block_size));
-
-
-	m_blocks.push_back(Box(-7 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-6 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-5 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-4 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-3 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-2 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(-1 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(0 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(1 * m_block_size, -1* m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(2 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(3 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(4 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(5 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(6 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(7 * m_block_size,-1 * m_block_size, m_block_size, m_block_size));
-	m_blocks.push_back(Box(8 * m_block_size, -1 * m_block_size, m_block_size, m_block_size));
-
+	
 	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f,14.0f,1.0f,1.0f,true,4.0f));
-	puppies[0]->init();
+	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f, 13.0f, 1.0f, 1.0f, true, 4.0f));
+	for (auto& p : puppies) {
+		p->init();
+	}
 	necromancers.push_back(std::make_unique<Necromancer>(5.0f, 14.0f, 1.0f, 1.0f,false));
-	necromancers[0]->init();
+	necromancers.push_back(std::make_unique<Necromancer>(-1.0f, 11.0f, 1.0f, 1.0f, true));
+	for (auto& n : necromancers) {
+		n->init();
+	}
+	
 
 	for (int i = 1; i <= 66; i++) {
 		m_block_names.push_back("block.png");

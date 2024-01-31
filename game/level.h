@@ -21,7 +21,6 @@ class Level : public GameObject
 
 	std::vector<GameObject*> m_static_object;
 	std::vector<GameObject*> m_dynamic_object;
-
 	const float m_block_size = 1.0f;
 	graphics::Brush m_brush_block;
 	graphics::Brush m_brush_block_debug;

@@ -47,7 +47,7 @@ void FlyingPuppy::draw() {
 
 void FlyingPuppy::update(float ms){
 	// Increment the animation variable static auto lastUpdateTime = std::chrono::high_resolution_clock::now();
-	static auto lastUpdateTime = std::chrono::high_resolution_clock::now();
+	//static auto lastUpdateTime = std::chrono::high_resolution_clock::now();
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastUpdateTime).count();
 	if (deltaTime >= 100) {

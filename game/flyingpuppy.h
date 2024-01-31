@@ -3,6 +3,8 @@
 #include "Box.h"
 #include <sgg/graphics.h>
 #include "gamestate.h"
+#include <thread>
+#include <chrono>
 
 class FlyingPuppy : public GameObject, public Box {
 	
@@ -19,6 +21,7 @@ public:
 	void update(float ms) override;
 	graphics::Brush m_brush_FlyingPup;
 	std::vector<std::string>m_spritesFlyingPup;
+	std::chrono::time_point<std::chrono::high_resolution_clock> lastUpdateTime;
 	int form = 0;
 	
 	FlyingPuppy(float x, float y, float w, float h, bool r,float rangeP)

@@ -25,8 +25,7 @@ class Player : public GameObject, public Box
 	bool left = false;
 	bool can_shoot = false;
 	float shoot_cooldown = 0.0f;
-	bool canTakeDmg = false;
-	float dmg_cooldown = 0.0f;
+	
 
 public:
 	bool collisionDet = false;
@@ -44,10 +43,7 @@ public:
 	float PlayerPosY() {
 		return m_pos_y;
 	}
-	void takeDamage(float dmg) {
-		health_self -= dmg;
-		canTakeDmg = false;
-	}
+	
 protected:
 	void debugDraw();
 	void drawHealth();

@@ -27,6 +27,13 @@ void Necromancer::init() {
 		m_spritesNec.push_back(m_state->getFullAssetPath("NecR10.png"));
 		m_spritesNec.push_back(m_state->getFullAssetPath("NecR11.png"));
 		m_spritesNec.push_back(m_state->getFullAssetPath("NecR12.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingR1.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingR2.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingR3.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingR4.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingR5.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingR6.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingR7.png"));
 	}
 	else {
 		m_brush_Nec.texture = m_state->getFullAssetPath("NecL1.png");
@@ -42,6 +49,14 @@ void Necromancer::init() {
 		m_spritesNec.push_back(m_state->getFullAssetPath("NecL10.png"));
 		m_spritesNec.push_back(m_state->getFullAssetPath("NecL11.png"));
 		m_spritesNec.push_back(m_state->getFullAssetPath("NecL12.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingL1.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingL2.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingL3.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingL4.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingL5.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingL6.png"));
+		m_spritesNec.push_back(m_state->getFullAssetPath("NecDyingL7.png"));
+		
 	}
 	
 	form = 0;
@@ -49,6 +64,9 @@ void Necromancer::init() {
 }
 
 void Necromancer::draw() {
+	if (toDelete) {
+		return;
+	}
 	float x = getPosX() + m_state->m_global_offset_x;
 	float y = getPosY() + m_state->m_global_offset_y;
 	m_brush_Nec.texture = m_spritesNec[form];
@@ -65,7 +83,7 @@ void Necromancer::draw() {
 }
 
 void Necromancer::update(float ms) {
-	static auto lastUpdateTime = std::chrono::high_resolution_clock::now();
+	//static auto lastUpdateTime = std::chrono::high_resolution_clock::now();
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastUpdateTime).count();
 	if (can_shoot && form == 10) {
@@ -84,36 +102,22 @@ void Necromancer::update(float ms) {
 			shoot_cooldown = 1.0f; // Reset the cooldown for the next shot
 		}
 	}
-	/*if (health_n <= 0.0f && !dying) {
+	if (health_n <= 0.0f && !dying) {
 		dying = true;
 		form = 12;
-		if (right) {
-			m_brush_Nec.texture = m_state->getFullAssetPath("NecDyingR1.png");
-			m_spritesNec.push_back("NecDyingR1.png");
-			m_spritesNec.push_back("NecDyingR2.png");
-			m_spritesNec.push_back("NecDyingR3.png");
-			m_spritesNec.push_back("NecDyingR4.png");
-			m_spritesNec.push_back("NecDyingR5.png");
-			m_spritesNec.push_back("NecDyingR6.png");
-			m_spritesNec.push_back("NecDyingR7.png");
-		}
-		else {
-			m_brush_Nec.texture = m_state->getFullAssetPath("NecDyingL1.png");
-			m_spritesNec.push_back("NecDyingL1.png");
-			m_spritesNec.push_back("NecDyingL2.png");
-			m_spritesNec.push_back("NecDyingL3.png");
-			m_spritesNec.push_back("NecDyingL4.png");
-			m_spritesNec.push_back("NecDyingL5.png");
-			m_spritesNec.push_back("NecDyingL6.png");
-			m_spritesNec.push_back("NecDyingL7.png");
-		}
 	}
-	*/
+	
 	if (deltaTime >= 100) {
 		form++;
 		if (!dying) {
-			if (form >= 11) {
+			if (form >= 12) {
 				form = 0;
+			}
+		}
+		else {
+			if (form >= 18) {
+				form = 0;
+				toDelete = true;
 			}
 		}
 			
