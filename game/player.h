@@ -25,6 +25,7 @@ class Player : public GameObject, public Box
 	bool left = false;
 	bool can_shoot = false;
 	float shoot_cooldown = 0.0f;
+	bool spawned = false;
 	
 
 public:

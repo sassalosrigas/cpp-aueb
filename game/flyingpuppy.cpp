@@ -65,6 +65,9 @@ void FlyingPuppy::update(float ms){
 	
 		lastUpdateTime = currentTime;
 	}
+	if (health_p <= 0.0f) {
+		graphics::playSound("assets\\death.mp3", 0.5f, false);
+	}
 	movePup();
 	GameObject::update(ms);
 }

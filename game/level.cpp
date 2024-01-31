@@ -217,24 +217,61 @@ void Level::init()
 	m_blocks.push_back(Box(-1,12, 1.0f, 1.0f));
 	m_blocks.push_back(Box(0, 10, 1.0f, 1.0f));
 	m_blocks.push_back(Box(1, 12, 1.0f, 1.0f));
+	m_blocks.push_back(Box(1, 9, 1.0f, 1.0f));
+	m_blocks.push_back(Box(2, 9, 1.0f, 1.0f));
+	m_blocks.push_back(Box(3, 9, 1.0f, 1.0f));
+	m_blocks.push_back(Box(4, 9, 1.0f, 1.0f));
+	m_blocks.push_back(Box(5, 9, 1.0f, 1.0f));
+	m_blocks.push_back(Box(5, 8, 1.0f, 1.0f));
+	m_blocks.push_back(Box(6, 8, 1.0f, 1.0f));
+	m_blocks.push_back(Box(7, 7, 1.0f, 1.0f));
+	m_blocks.push_back(Box(7, 8, 1.0f, 1.0f));
+	m_blocks.push_back(Box(1, 10, 1.0f, 1.0f));
+	m_blocks.push_back(Box(5, 6, 1.0f, 1.0f));
+	m_blocks.push_back(Box(4, 5, 1.0f, 1.0f));
+	m_blocks.push_back(Box(7, 4, 1.0f, 1.0f));
+	m_blocks.push_back(Box(3, 4, 1.0f, 1.0f));
+	m_blocks.push_back(Box(2, 3, 1.0f, 1.0f));
+	m_blocks.push_back(Box(1, 3, 1.0f, 1.0f));
+	m_blocks.push_back(Box(0, 3, 1.0f, 1.0f));
+	m_blocks.push_back(Box(-1, 3, 1.0f, 1.0f));
+	m_blocks.push_back(Box(-2, 3, 1.0f, 1.0f));
+	m_blocks.push_back(Box(-2, 2, 1.0f, 1.0f));
+	m_blocks.push_back(Box(0, 1, 1.0f, 1.0f));
+	m_blocks.push_back(Box(1, 1, 1.0f, 1.0f));
+	m_blocks.push_back(Box(2, 1, 1.0f, 1.0f));
+	m_blocks.push_back(Box(3, 1, 1.0f, 1.0f));
+	m_blocks.push_back(Box(4, 1, 1.0f, 1.0f));
+	m_blocks.push_back(Box(5, 1, 1.0f, 1.0f));
+	m_blocks.push_back(Box(6, 1, 1.0f, 1.0f));
+	m_blocks.push_back(Box(7, 1, 1.0f, 1.0f));
+	m_blocks.push_back(Box(-2, 8, 1.0f, 1.0f));
+	m_blocks.push_back(Box(4, 6, 1.0f, 1.0f));
+	m_blocks.push_back(Box(3, 5, 1.0f, 1.0f));
+	m_blocks.push_back(Box(2, 4, 1.0f, 1.0f));
 
-	m_blocks.push_back(Box(0, 12, 1.0f, 1.0f));
+
 	
 
 	
-	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f,14.0f,1.0f,1.0f,true,4.0f));
 	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f, 13.0f, 1.0f, 1.0f, true, 4.0f));
+	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f, 8.0f, 1.0f, 1.0f, true, 3.0f));
+	puppies.push_back(std::make_unique<FlyingPuppy>(-1.0f, 2.0f, 1.0f, 1.0f, true, 3.0f));
+	puppies.push_back(std::make_unique<FlyingPuppy>(5.0f, .0f, 1.0f, 1.0f, false, 4.0f));
 	for (auto& p : puppies) {
 		p->init();
 	}
 	necromancers.push_back(std::make_unique<Necromancer>(5.0f, 14.0f, 1.0f, 1.0f,false));
 	necromancers.push_back(std::make_unique<Necromancer>(-1.0f, 11.0f, 1.0f, 1.0f, true));
+	necromancers.push_back(std::make_unique<Necromancer>(7, 3, 1.0f, 1.0f, false));
+	necromancers.push_back(std::make_unique<Necromancer>(-2, 7, 1.0f, 1.0f, true));
+
 	for (auto& n : necromancers) {
 		n->init();
 	}
 	
 
-	for (int i = 1; i <= 66; i++) {
+	for (int i = 0; i < m_blocks.size(); i++) {
 		m_block_names.push_back("block.png");
 	}
 	m_brush_block.outline_opacity = 0.0f;

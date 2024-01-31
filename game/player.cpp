@@ -89,8 +89,8 @@ void Player::update(float ms)
 
 void Player::init()
 {
-	m_pos_x = 5.0f;
-	m_pos_y = 5.0f;
+	m_pos_x = -2.0f;
+	m_pos_y = 14.0f;
 	m_width /= 1.4f;
 	m_height /= 1.2f;
 	m_state->m_global_offset_x = m_state->getCanvasWidth() / 2.0f - m_pos_x;
@@ -106,6 +106,7 @@ void Player::init()
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left2.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left3.png"));
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left4.png"));
+	graphics::drawRect(m_pos_x, m_pos_y, 1.0f, 1.0f, m_brush_player);
 	
 	
 }
@@ -123,6 +124,7 @@ void Player::draw()
 		m_brush_player.texture = m_state->getFullAssetPath("hk0.png");
 	}
 	graphics::drawRect(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.5f, 1.0f, 1.0f, m_brush_player);
+	
 	if (m_state->m_debug_mode) {
 		debugDraw();
 	}

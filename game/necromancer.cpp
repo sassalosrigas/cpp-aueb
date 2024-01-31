@@ -110,11 +110,14 @@ void Necromancer::update(float ms) {
 	if (deltaTime >= 100) {
 		form++;
 		if (!dying) {
-			if (form >= 12) {
+			if (form >= 11) {
 				form = 0;
 			}
 		}
 		else {
+			if (form == 12) {
+				graphics::playSound("assets\\death.mp3", 0.5f, false);
+			}
 			if (form >= 18) {
 				form = 0;
 				toDelete = true;
