@@ -13,6 +13,7 @@ using namespace std;
 void Ribbon::init(float x, float y) {
 	setPosX(x);
 	setPosY(y);
+	y_axis = posY();
 	m_height = 0.2f;
 	m_width = 0.2f;
 	m_brush_ribbon.fill_opacity = 1.0f;
@@ -22,7 +23,6 @@ void Ribbon::init(float x, float y) {
 }
 
 void Ribbon::draw() {
-	
 	if (left) {
 		graphics::drawRect(m_state->getCanvasHeight() * 0.5f - i, m_state->getCanvasWidth() * 0.5f, 0.3f, 0.3f, m_brush_ribbon);
 		i += 0.1f;																										

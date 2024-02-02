@@ -39,9 +39,6 @@
     <ClCompile Include="ribbon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="healthbar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="necromancer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ribbon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="healthbar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="necromancer.h">

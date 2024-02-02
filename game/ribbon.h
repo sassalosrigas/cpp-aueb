@@ -11,6 +11,7 @@ public:
     Ribbon(float x, float y, float w, float h)
         : Projectile(x, y, w, h) {        
     }
+    float y_axis = 0.0f;
     void init(float x, float y);
     void draw() override;
     void update(float ms) override;
