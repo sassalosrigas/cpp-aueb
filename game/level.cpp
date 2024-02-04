@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 #include "necromancer.h"
+#include "healthpack.h"
 #include <iostream>
 using namespace std;
 
@@ -44,7 +45,18 @@ void Level::checkCollisions()
 			break;
 		}
 	}
-	
+	for (auto& h : health_packs) {
+		if (player->intersect(*h)) {
+			if (player->health_self + 30.0f > 100.0f) {
+				player->health_self = 100.0f;
+			}
+			else {
+				player->health_self += 30.0f;
+			}
+			graphics::playSound("assets\\heal.mp3", 0.5f, false);
+			h->toRemove = true;
+		}
+	}
 	for (const auto& ribbon : player->ribbons) {
 		for (auto& puppy : puppies) {
 			if (ribbon->intersect(*puppy)) {
@@ -133,31 +145,40 @@ void Level::checkCollisions()
 
 void Level::update(float ms)
 {
-	if (m_state->getPlayer()->isActive())
-		m_state->getPlayer()->update(ms);
-	for (auto& p : puppies) {
-		p->update(ms);
+	if (!m_state->getPlayer()->isDead()) {
+		if (m_state->getPlayer()->isActive())
+			m_state->getPlayer()->update(ms);
+		for (auto& p : puppies) {
+			p->update(ms);
+		}
+		for (auto& n : necromancers) {
+			n->update(ms);
+		}
+		int c = 0;
+		puppies.erase(std::remove_if(puppies.begin(), puppies.end(),
+			[&c](const std::unique_ptr<FlyingPuppy>& puppy) {
+				if (puppy->isDead()) {
+					c += 15;
+				}
+				return puppy->isDead();
+			}), puppies.end());
 
+		necromancers.erase(std::remove_if(necromancers.begin(), necromancers.end(),
+			[&c](const std::unique_ptr<Necromancer>& necromancer) {
+				if (necromancer->isDead()) {
+					c += 30;
+				}
+				return necromancer->isDead();
+			}), necromancers.end());
+		score += c;
+		health_packs.erase(std::remove_if(health_packs.begin(), health_packs.end(),
+			[&c](const std::unique_ptr<HealthPack>& healthpack) {
+				return healthpack->toRemove;
+			}), health_packs.end());
+		checkCollisions();
+
+		GameObject::update(ms);
 	}
-	for (auto& n : necromancers) {
-		n->update(ms);
-	}
-	
-	
-	
-	puppies.erase(std::remove_if(puppies.begin(), puppies.end(),
-		[](const std::unique_ptr<FlyingPuppy>& puppy) {
-			return puppy->isDead();
-		}), puppies.end());
-
-	necromancers.erase(std::remove_if(necromancers.begin(), necromancers.end(),
-		[](const std::unique_ptr<Necromancer>& necromancer) {
-			return necromancer->isDead();
-		}), necromancers.end());
-	
-	checkCollisions();
-
-	GameObject::update(ms);
 }
 
 void Level::draw()
@@ -167,10 +188,14 @@ void Level::draw()
 
 	float offset_x = m_state->m_global_offset_x / 2.0f + w / 2.0f;
 	float offset_y = m_state->m_global_offset_y / 2.0f + h / 2.0f;
-
-	//draw background
+	
+	//if (m_state->getPlayer()->isDead()) {
+		//SETCOLOR(m_brush_background.fill_color, 1, 1, 1);
+		//m_brush_background.fill_opacity = 0.5f;
+	//}
+	
 	graphics::drawRect(offset_x, offset_y, 2.0f * w, 4.0f * w, m_brush_background);
-
+	//draw background
 	//draw blocks
 	for (int i = 0; i < m_blocks.size(); i++)
 	{
@@ -186,11 +211,35 @@ void Level::draw()
 			n->draw();
 		}
 	}
-	
-	
+	for (auto& h : health_packs) {
+		h->draw();
+	}
+	drawScore();
+
  
 	if (m_state->getPlayer()->isActive()) {
 		m_state->getPlayer()->draw();
+	}
+	if (m_state->getPlayer()->isDead()) {
+		if (!deathsound) {
+			graphics::stopMusic();
+			graphics::playSound("assets\\gameover.wav", 0.5f, false);
+			deathsound = true;
+		}
+		graphics::Brush br_end;
+		br_end.outline_opacity = 0.0f;
+		br_end.fill_opacity = 1.0f;
+		br_end.texture = m_state->getFullAssetPath("gameover.png");
+		SETCOLOR(m_brush_background.fill_color, 1, 1, 1);
+		m_brush_background.fill_opacity = 0.5f;
+		graphics::Brush br_score;
+		SETCOLOR(br_score.fill_color, 1.0f, 1.0f, 1.0f);
+		br_score.fill_opacity = 1.0f;
+		char s[20];
+		sprintf_s(s, sizeof(s), "Score: %d", score);
+		graphics::drawRect(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.5f - 1.0f, 1.5f, 1.5f, br_end);
+		graphics::drawText(m_state->getCanvasWidth() * 0.5f - 1.0f, m_state->getCanvasHeight() * 0.5f + 1.0f, 0.35f, s, br_score);
+		graphics::drawRect(offset_x, offset_y, 2.0f * w, 4.0f * w, m_brush_background);
 	}
 	
 }
@@ -252,16 +301,21 @@ void Level::init()
 
 
 	
+	health_packs.push_back(std::make_unique<HealthPack>(-2.0f, 10.0f, 1.0f, 1.0f));
+	health_packs.push_back(std::make_unique<HealthPack>(7.0f, 6.0f, 1.0f, 1.0f));
+	health_packs.push_back(std::make_unique<HealthPack>(-2.0f, 10.0f, 1.0f, 1.0f));
+	health_packs.push_back(std::make_unique<HealthPack>(-2.0f, 1.0f, 1.0f, 1.0f));
+
 
 	
-	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f, 13.0f, 1.0f, 1.0f, true, 4.0f));
+	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f, 14.0f, 1.0f, 1.0f, true, 4.0f));
 	puppies.push_back(std::make_unique<FlyingPuppy>(1.0f, 8.0f, 1.0f, 1.0f, true, 3.0f));
 	puppies.push_back(std::make_unique<FlyingPuppy>(-1.0f, 2.0f, 1.0f, 1.0f, true, 3.0f));
 	puppies.push_back(std::make_unique<FlyingPuppy>(5.0f, .0f, 1.0f, 1.0f, false, 4.0f));
 	for (auto& p : puppies) {
 		p->init();
 	}
-	necromancers.push_back(std::make_unique<Necromancer>(5.0f, 14.0f, 1.0f, 1.0f,false));
+	necromancers.push_back(std::make_unique<Necromancer>(6.0f, 13.0f, 1.0f, 1.0f,false));
 	necromancers.push_back(std::make_unique<Necromancer>(-1.0f, 11.0f, 1.0f, 1.0f, true));
 	necromancers.push_back(std::make_unique<Necromancer>(7, 3, 1.0f, 1.0f, false));
 	necromancers.push_back(std::make_unique<Necromancer>(-2, 7, 1.0f, 1.0f, true));
@@ -281,6 +335,15 @@ void Level::init()
 
 
 }
+
+void Level::drawScore() {
+	graphics::Brush br_score;
+	SETCOLOR(br_score.fill_color, 1.0f, 1.0f, 1.0f);
+	br_score.fill_opacity = 1.0f;
+	char s[20];
+	sprintf_s(s, sizeof(s), "%d", score);
+	graphics::drawText(m_state->getCanvasWidth() * 0.5f + 2.0f, m_state->getCanvasHeight() * 0.5f - 2.0f, 0.35f, s, br_score);
+}
 std::vector<Box> getVec() {
 	Level l;
 	return l.m_blocks;
@@ -290,6 +353,7 @@ Level::Level(const std::string& name)
 {
 	m_brush_background.outline_opacity = 0.0f;
 	m_brush_background.texture = m_state->getFullAssetPath("background.png");
+	
 }
 
 Level::~Level()

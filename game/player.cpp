@@ -69,7 +69,6 @@ void Player::update(float ms)
 		}
 	}
 	
-	
 	if (ribbons.size() >= 1) {
 		for (int i = 0; i < ribbons.size(); i++) {
 			ribbons[i]->update(ms);
@@ -108,7 +107,6 @@ void Player::init()
 	m_spritesL.push_back(m_state->getFullAssetPath("hk-left4.png"));
 	graphics::drawRect(m_pos_x, m_pos_y, 1.0f, 1.0f, m_brush_player);
 	
-	
 }
 
 void Player::draw()
@@ -141,19 +139,29 @@ void Player::drawHealth() {
 	SETCOLOR(br_life.outline_color, 0, 0, 0);
 	br_life.fill_opacity = 1.0f;
 	br_life.outline_opacity = 0.0f;
-	if (health_self == 100.0f) {
+	if (health_self > 80.0f && health_self <= 100.0f) {
 		SETCOLOR(br_life.fill_color, 0, 1, 0);
 	}
-	else if (health_self == 75.0f) {
-		SETCOLOR(br_life.fill_color, 0.5f, 0.8f, 0);
+	else if (health_self > 60.0f && health_self <= 80.0f) {
+		SETCOLOR(br_life.fill_color, 0.5f, 1, 0);
 	}
-	else if (health_self == 50.0f){
-		SETCOLOR(br_life.fill_color, 0.5f, 0.5f, 0);
+	else if (health_self > 40.0f && health_self <=60.0f){
+		SETCOLOR(br_life.fill_color, 1, 1, 0);
 	}
-	else if (health_self == 25.0f) {
+	else if (health_self > 20.0f && health_self <= 40.0f) {
+		SETCOLOR(br_life.fill_color, 1, 0.5f, 0);
+	}
+	else {
 		SETCOLOR(br_life.fill_color, 1, 0, 0);
 	}
-	graphics::drawRect(m_state->getCanvasWidth() * 0.5f - 2.0f, m_state->getCanvasHeight() * 0.5f - 2.0f, std::max<float>(0.0f,(health_self/100.0f)), 0.3f, br_life);
+	graphics::drawRect(m_state->getCanvasWidth() * 0.5f - 2.0f - (1.0f - std::max<float>(0.0f, (health_self / 100.0f)))*0.5f, m_state->getCanvasHeight() * 0.5f - 2.0f, std::max<float>(0.0f,(health_self/100.0f)), 0.3f, br_life);
+	graphics::Brush br_hb;
+	SETCOLOR(br_hb.outline_color, 0, 0, 0);
+	br_hb.fill_opacity = 1.0f;
+	br_hb.outline_opacity = 0.0f;
+	br_hb.texture = m_state->getFullAssetPath("healthbar.png");
+	graphics::drawRect(m_state->getCanvasWidth() * 0.5f - 2.0f, m_state->getCanvasHeight() * 0.5f - 2.0f, 1.2f, 0.5f, br_hb);
+	
 }
 
 

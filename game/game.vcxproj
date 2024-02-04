@@ -138,6 +138,7 @@
     <ClCompile Include="flyingpuppy.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="gamestate.cpp" />
+    <ClCompile Include="healthpack.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="necromancer.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="flyingpuppy.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="gamestate.h" />
+    <ClInclude Include="healthpack.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="necromancer.h" />
     <ClInclude Include="player.h" />
