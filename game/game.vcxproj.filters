@@ -48,6 +48,9 @@
     <ClCompile Include="healthpack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="portal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="healthpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="portal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

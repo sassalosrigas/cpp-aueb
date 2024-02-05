@@ -143,6 +143,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="necromancer.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="portal.cpp" />
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="ribbon.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="level.h" />
     <ClInclude Include="necromancer.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="portal.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="ribbon.h" />
     <ClInclude Include="util.h" />

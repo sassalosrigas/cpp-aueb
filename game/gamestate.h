@@ -43,6 +43,5 @@ public:
 	std::string getFullAssetPath(std::string asset);
 
 	class Player* getPlayer() { return m_player; }
-	class HealthBar* getBar() { return hp; }
 
 };

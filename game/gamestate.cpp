@@ -28,7 +28,6 @@ void GameState::draw()
 {
 	if (!m_current_level)
 		return;
-
 	m_current_level->draw();
 }
 
