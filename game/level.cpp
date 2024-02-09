@@ -43,7 +43,7 @@ void Level::checkCollisions()
 	for (int i = 0; i<puppies.size(); i++) {
 		auto& p = puppies[i];
 		if (player->intersect(*p)) {
-			//player->takeDamage(0.1f);
+			graphics::playSound("assets\\hurt.mp3", 0.25f, false);
 			player->health_self -= 0.25f;
 			printf("*");
 			break;
@@ -57,7 +57,7 @@ void Level::checkCollisions()
 			else {
 				player->health_self += 30.0f;
 			}
-			graphics::playSound("assets\\heal.mp3", 0.5f, false);
+			graphics::playSound("assets\\heal.mp3", 0.25f, false);
 			h->toRemove = true;
 		}
 	}
@@ -70,6 +70,7 @@ void Level::checkCollisions()
 	for (const auto& ribbon : player->ribbons) {
 		for (auto& puppy : puppies) {
 			if (ribbon->intersect(*puppy)) {
+				graphics::playSound("assets\\hurt.mp3", 0.25f, false);
 				printf("*");
 				puppy->health_p -= 50.0f;
 				cout << puppy->health_p;
@@ -85,20 +86,18 @@ void Level::checkCollisions()
 		}
 		for (auto& necromancer : necromancers) {
 			if (ribbon->intersect(*necromancer)) {
+				graphics::playSound("assets\\hurt.mp3", 0.25f, false);
 				necromancer->health_n -= 50.0f;
 				if (necromancer->health_n <= 0.0f) {
 					necromancer->dying = true;
 				}
-				cout << "R";
 				ribbon->toRemove = true;
 				break;
-			}
-			if (player->intersect(*necromancer)) {
-				cout << "N";
 			}
 		}
 		for (auto& g : guardians) {
 			if (ribbon->intersect(*g)) {
+				graphics::playSound("assets\\hurt.mp3", 0.25f, false);
 				ribbon->toRemove = true;
 			}
 		}
@@ -106,6 +105,7 @@ void Level::checkCollisions()
 		for (auto& necromancer : necromancers) {
 			for (const auto& fireball : necromancer->fireballs) {
 				if (fireball->intersect(*player)) {
+					graphics::playSound("assets\\hurt.mp3", 0.25f, false);
 					if (player->health_self > 0.0f) {
 						player->health_self-=15.0f;					
 					}
@@ -222,7 +222,6 @@ void Level::update(float ms)
 				return healthpack->toRemove;
 			}), health_packs.end());
 		checkCollisions();
-	
 		GameObject::update(ms);
 	}
 }
@@ -273,7 +272,15 @@ void Level::draw()
 		l->draw();
 	}
 	drawScore();
-
+	graphics::Brush br_help;
+	SETCOLOR(br_help.fill_color, 1.0f, 1.0f, 1.0f);
+	br_help.fill_opacity = 1.0f;
+	graphics::drawText(m_state->getCanvasWidth() * 0.5f - 2.0f, m_state->getCanvasHeight() * 0.5f + 2.5f, 0.2f, "H: HELP", br_help);
+	if (graphics::getKeyState(graphics::SCANCODE_H)) {
+		
+		graphics::drawText(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.5f + 2.0f, 0.2f, "MOVE: W,A,D", br_help);
+		graphics::drawText(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.5f + 2.2f, 0.2f, "SHOOT: SPACE", br_help);
+	}
  
 	if (m_state->getPlayer()->isActive()) {
 		m_state->getPlayer()->draw();

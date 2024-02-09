@@ -124,7 +124,6 @@ void Necromancer::update(float ms) {
 			}
 		}
 			
-		cout << fireballs.size();
 		lastUpdateTime = currentTime;
 	}
 	
