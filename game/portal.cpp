@@ -7,6 +7,8 @@
 
 
 void Portal::init() {
+	m_width = 0.5f;
+	m_height = 0.5f;
 	br_portal.fill_opacity = 1.0f;
 	br_portal.outline_opacity = 0.0f;
 	br_portal.texture = m_state->getFullAssetPath("portal.png");

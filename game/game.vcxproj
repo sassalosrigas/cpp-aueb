@@ -134,11 +134,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="coin.cpp" />
     <ClCompile Include="fireball.cpp" />
     <ClCompile Include="flyingpuppy.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="gamestate.cpp" />
     <ClCompile Include="healthpack.cpp" />
+    <ClCompile Include="immortalguardian.cpp" />
+    <ClCompile Include="immortalguardian.h" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="necromancer.cpp" />
@@ -149,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="box.h" />
+    <ClInclude Include="coin.h" />
     <ClInclude Include="fireball.h" />
     <ClInclude Include="flyingpuppy.h" />
     <ClInclude Include="gameobject.h" />

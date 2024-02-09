@@ -14,6 +14,8 @@
 #include "necromancer.h"
 #include "healthpack.h"
 #include "portal.h"
+#include "coin.h"
+#include "immortalguardian.h"
 #include <iostream>
 using namespace std;
 
@@ -109,17 +111,27 @@ void Level::checkCollisions()
 		}
 		for (auto& p : portals) {
 			if (player->intersect(*p)) {
-				curr_l++;
-				health_packs.clear();
-				puppies.clear();
-				m_blocks.clear();
-				necromancers.clear();
-				portals.clear();
-				init();
-				m_state->getPlayer()->init();
+				if (curr_l == 0) {
+					curr_l++;
+					health_packs.clear();
+					puppies.clear();
+					m_blocks.clear();
+					necromancers.clear();
+					portals.clear();
+					init();
+					m_state->getPlayer()->init();
+				}
+				else {
+					won = true;
+				}
+				
 			}
 		}
-
+		for (auto& g : guardians) {
+			if (player->intersect(*g)) {
+				player->health_self = 0.0f;
+			}
+		}
 		for (auto& block : m_blocks) {
 			float offset = 0.0f;
 			if (offset = player->intersectUp(block)) {
@@ -157,7 +169,7 @@ void Level::checkCollisions()
 
 void Level::update(float ms)
 {
-	if (!m_state->getPlayer()->isDead()) {
+	if (!m_state->getPlayer()->isDead() && !won) {
 		if (m_state->getPlayer()->isActive())
 			m_state->getPlayer()->update(ms);
 		for (auto& p : puppies) {
@@ -165,6 +177,12 @@ void Level::update(float ms)
 		}
 		for (auto& n : necromancers) {
 			n->update(ms);
+		}
+		for (auto& g : guardians) {
+			g->update(ms);
+		}
+		for (auto& c : coins) {
+			c->update(ms);
 		}
 		int c = 0;
 		puppies.erase(std::remove_if(puppies.begin(), puppies.end(),
@@ -229,6 +247,12 @@ void Level::draw()
 	for (auto& p : portals) {
 		p->draw();
 	}
+	for (auto& g : guardians) {
+		g->draw();
+	}
+	for (auto& c : coins) {
+		c->draw();
+	}
 	drawScore();
 
  
@@ -253,6 +277,22 @@ void Level::draw()
 		char s[20];
 		sprintf_s(s, sizeof(s), "Score: %d", score);
 		graphics::drawRect(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.5f - 1.0f, 1.5f, 1.5f, br_end);
+		graphics::drawText(m_state->getCanvasWidth() * 0.5f - 1.0f, m_state->getCanvasHeight() * 0.5f + 1.0f, 0.35f, s, br_score);
+		graphics::drawRect(offset_x, offset_y, 2.0f * w, 4.0f * w, m_brush_background);
+	}
+	else if (won) {
+		graphics::Brush br_end;
+		br_end.outline_opacity = 0.0f;
+		br_end.fill_opacity = 1.0f;
+		br_end.texture = m_state->getFullAssetPath("youwon.png");
+		SETCOLOR(m_brush_background.fill_color, 1, 1, 1);
+		m_brush_background.fill_opacity = 0.5f;
+		graphics::Brush br_score;
+		SETCOLOR(br_score.fill_color, 1.0f, 1.0f, 1.0f);
+		br_score.fill_opacity = 1.0f;
+		char s[20];
+		sprintf_s(s, sizeof(s), "Score: %d", score);
+		graphics::drawRect(m_state->getCanvasWidth() * 0.5f, m_state->getCanvasHeight() * 0.5f - 1.0f, 2.0f, 0.8f, br_end);
 		graphics::drawText(m_state->getCanvasWidth() * 0.5f - 1.0f, m_state->getCanvasHeight() * 0.5f + 1.0f, 0.35f, s, br_score);
 		graphics::drawRect(offset_x, offset_y, 2.0f * w, 4.0f * w, m_brush_background);
 	}
@@ -355,6 +395,104 @@ void Level::init()
 		SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
 		SETCOLOR(m_brush_block.outline_color, 0.3f, 1.0f, 0.2f);
 	}
+	else if (curr_l == 1){
+		for (int i = -2; i <= 7; i++) {
+			m_blocks.push_back(Box(i, 15, 1.0f, 1.0f));
+			m_blocks.push_back(Box(i, -1, 1.0f, 1.0f));
+		}
+		for (int i = 0; i <= 15; i++) {
+			m_blocks.push_back(Box(8, i, 1.0f, 1.0f));
+			m_blocks.push_back(Box(-3, i, 1.0f, 1.0f));
+		}
+		m_blocks.push_back(Box(0.0f, 14.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 13.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(2.0f, 13.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 13.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 14.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 13.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(5.0f, 13.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 12.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 13.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(7.0f, 12.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(5.0f, 10.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 10.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 10.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-1.0f, 10.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-2.0f, 10.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(0.0f, 10.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 9.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(0.0f, 9.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(0.0f, 8.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-1.0f, 8.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-2.0f, 8.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-2.0f, 7.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(0.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(2.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(5.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(7.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 5.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 5.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(5.0f, 5.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(7.0f, 5.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(7.0f, 11.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 5.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 4.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(7.0f, 4.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(7.0f, 3.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(5.0f, 2.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 1.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 2.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 2.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(2.0f, 2.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(0.0f, -1.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(0.0f, 3.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-2.0f, 3.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-1.0f, 3.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 2.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-2.0f, 2.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-2.0f, 1.0f, 1.0f, 1.0f));
+
+
+
+
+		
+
+		for (int i = 0; i < m_blocks.size(); i++) {
+			m_block_names.push_back("block.png");
+		}
+
+		puppies.push_back(std::make_unique<FlyingPuppy>(1.0f, 12.0f, 1.0f, 1.0f, true, 4.0f));
+		puppies.push_back(std::make_unique<FlyingPuppy>(-1.0f, 9.0f, 1.0f, 1.0f, true, 7.0f));
+		puppies.push_back(std::make_unique<FlyingPuppy>(5.0f, 4.0f, 1.0f, 1.0f, false, 5.0f));
+		puppies.push_back(std::make_unique<FlyingPuppy>(1.0f, 1.0f, 1.0f, 1.0f, true, 2.0f));
+
+		for (auto& p : puppies) {
+			p->init();
+		}
+		necromancers.push_back(std::make_unique<Necromancer>(1.0f, 8.0f, 1.0f, 1.0f, true));
+		necromancers.push_back(std::make_unique<Necromancer>(5.0f, 4.0f, 1.0f, 1.0f, false));
+		necromancers.push_back(std::make_unique<Necromancer>(-2.0f, 0.0f, 1.0f, 1.0f, true));
+		for (auto& n : necromancers) {
+			n->init();
+		}
+		health_packs.push_back(std::make_unique<HealthPack>(-2.0f, 6.0f, 1.0f, 1.0f));
+		health_packs.push_back(std::make_unique<HealthPack>(4.0f, 5.0f, 1.0f, 1.0f));
+		for (auto& h : health_packs) {
+			h->init();
+		}
+		portals.push_back(std::make_unique<Portal>(-1.0f, 2.0f, 1.0f, 1.0f));
+		for (auto& p : portals) {
+			p->init();
+		}
+		m_brush_block.outline_opacity = 0.0f;
+		m_brush_block_debug.fill_opacity = 0.1f;
+		SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
+		SETCOLOR(m_brush_block.outline_color, 0.3f, 1.0f, 0.2f);
+	}
 	else {
 		for (int i = -2; i <= 7; i++) {
 			m_blocks.push_back(Box(i, 15, 1.0f, 1.0f));
@@ -364,13 +502,81 @@ void Level::init()
 			m_blocks.push_back(Box(8, i, 1.0f, 1.0f));
 			m_blocks.push_back(Box(-3, i, 1.0f, 1.0f));
 		}
+		m_blocks.push_back(Box(-2.0f, 13.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-2.0f, 11.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-2.0f, 9.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 14.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(2.0f, 14.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(2.0f, 13.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 13.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 12.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 12.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 11.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(5.0f, 11.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(5.0f, 10.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 10.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 9.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(7.0f, 9.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 8.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 8.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 7.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(2.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(2.0f, 7.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(0.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-1.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(-2.0f, 6.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 5.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(5.0f, 5.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 5.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 4.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(7.0f, 3.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(7.0f, 4.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(6.0f, 5.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(5.0f, 2.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 1.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(4.0f, 2.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(3.0f, 1.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(2.0f, 1.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(1.0f, 1.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(0.0f, 1.0f, 1.0f, 1.0f));
+		m_blocks.push_back(Box(0.0f, 0.0f, 1.0f, 1.0f));
+
 		for (int i = 0; i < m_blocks.size(); i++) {
 			m_block_names.push_back("block.png");
 		}
+		guardians.push_back(std::make_unique<ImmortalGuardian>(-1.0f, 5.0f, 1.0f, 1.0f));
+		necromancers.push_back(std::make_unique<Necromancer>(-2.0f, 12.0f, 1.0f, 1.0f,true));
+		necromancers.push_back(std::make_unique<Necromancer>(-2.0f, 10.0f, 1.0f, 1.0f, true));
+		necromancers.push_back(std::make_unique<Necromancer>(-2.0f, 8.0f, 1.0f, 1.0f, true));
+		coins.push_back(std::make_unique<Coin>(-2.0f, 5.0f, 1.0f, 1.0f));
+		puppies.push_back(std::make_unique<FlyingPuppy>(5.0f, 4.0f, 1.0f, 1.0f, false, 1.0f));
 		m_brush_block.outline_opacity = 0.0f;
 		m_brush_block_debug.fill_opacity = 0.1f;
 		SETCOLOR(m_brush_block_debug.fill_color, 0.2f, 1.0f, 0.1f);
 		SETCOLOR(m_brush_block.outline_color, 0.3f, 1.0f, 0.2f);
+	}
+
+	for (auto& p : puppies) {
+		p->init();
+	}
+	for (auto& g : guardians) {
+		g->init();
+	}
+	for (auto& n : necromancers) {
+		n->init();
+	}
+	for (auto& p : portals) {
+		p->init();
+	}
+	for (auto& h : health_packs) {
+		h->init();
+	}
+	for (auto& p : puppies) {
+		p->init();
+	}
+	for (auto& c : coins) {
+		c->init();
 	}
 	
 

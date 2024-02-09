@@ -8,14 +8,18 @@ C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp
   C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gamestate.h(7,8):
   see declaration of 'GameState'
   
-C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(266,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(267,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(270,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(271,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(360,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(361,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(364,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(365,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(306,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(307,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(310,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(311,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(400,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(401,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(404,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(405,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(498,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(499,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(502,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(503,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\memory(3465,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\memory(3465,56): warning C4244:         with
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\memory(3465,56): warning C4244:         [
@@ -24,13 +28,7 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.3313
   (compiling source file 'level.cpp')
   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\memory(3465,56):
   the template instantiation context (the oldest one first) is
-  	C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(342,31):
+  	C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(382,31):
   	see reference to function template instantiation 'std::unique_ptr<Necromancer,std::default_delete<Necromancer>> std::make_unique<Necromancer,int,int,float,float,bool,0>(int &&,int &&,float &&,float &&,bool &&)' being compiled
   
-sggd.lib(AudioManager.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(AudioManager.obj)' or at ''; linking object as if no debug info
-sggd.lib(fonts.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(fonts.obj)' or at ''; linking object as if no debug info
-sggd.lib(GLbackend.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(GLbackend.obj)' or at ''; linking object as if no debug info
-sggd.lib(lodepng.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(lodepng.obj)' or at ''; linking object as if no debug info
-sggd.lib(shader.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(shader.obj)' or at ''; linking object as if no debug info
-sggd.lib(texture.obj) : warning LNK4099: PDB '' was not found with 'sggd.lib(texture.obj)' or at ''; linking object as if no debug info
   game.vcxproj -> C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\bin\game.exe

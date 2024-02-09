@@ -44,6 +44,13 @@ public:
 	float PlayerPosY() {
 		return m_pos_y;
 	}
+
+	void setPosX(float x) {
+		m_pos_x = x;
+	}
+	void setPosY(float y) {
+		m_pos_y = y;
+	}
 	//void takeDamage(float dmg) {
 		//if (canTakeDMG) {
 			//health_self -= dmg;
