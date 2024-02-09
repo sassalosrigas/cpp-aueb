@@ -12,6 +12,7 @@
 #include "healthpack.h"
 #include "portal.h"
 #include "coin.h"
+#include "lever.h"
 #include "immortalguardian.h"
 #include <iostream>
 using namespace std;
@@ -35,9 +36,11 @@ class Level : public GameObject
 	std::vector<std::unique_ptr<Portal>> portals;
 	std::vector<std::unique_ptr<ImmortalGuardian>> guardians;
 	std::vector<std::unique_ptr<Coin>> coins;
+	std::vector<std::unique_ptr<Lever>> levers;
 	bool deathsound = false;
+	bool winsound = false;
 	bool won = false;
-	int curr_l = 2;
+	int curr_l = 0;
 	//std::vector<std::unique_ptr<Necromancer>> necromancers;
 	//graphics::Brush m_brush_necromancers;
 	void drawBlock(int i);

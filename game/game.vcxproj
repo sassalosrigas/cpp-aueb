@@ -143,6 +143,7 @@
     <ClCompile Include="immortalguardian.cpp" />
     <ClCompile Include="immortalguardian.h" />
     <ClCompile Include="level.cpp" />
+    <ClCompile Include="lever.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="necromancer.cpp" />
     <ClCompile Include="player.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="gamestate.h" />
     <ClInclude Include="healthpack.h" />
     <ClInclude Include="level.h" />
+    <ClInclude Include="lever.h" />
     <ClInclude Include="necromancer.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="portal.h" />

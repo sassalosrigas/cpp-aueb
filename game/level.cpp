@@ -15,6 +15,7 @@
 #include "healthpack.h"
 #include "portal.h"
 #include "coin.h"
+#include "lever.h"
 #include "immortalguardian.h"
 #include <iostream>
 using namespace std;
@@ -60,6 +61,12 @@ void Level::checkCollisions()
 			h->toRemove = true;
 		}
 	}
+	for (auto& l : levers) {
+		if (player->intersect(*l)) {
+			guardians.clear();
+			l->opened = true;
+		}
+	}
 	for (const auto& ribbon : player->ribbons) {
 		for (auto& puppy : puppies) {
 			if (ribbon->intersect(*puppy)) {
@@ -90,6 +97,11 @@ void Level::checkCollisions()
 				cout << "N";
 			}
 		}
+		for (auto& g : guardians) {
+			if (ribbon->intersect(*g)) {
+				ribbon->toRemove = true;
+			}
+		}
 	}
 		for (auto& necromancer : necromancers) {
 			for (const auto& fireball : necromancer->fireballs) {
@@ -111,7 +123,6 @@ void Level::checkCollisions()
 		}
 		for (auto& p : portals) {
 			if (player->intersect(*p)) {
-				if (curr_l == 0) {
 					curr_l++;
 					health_packs.clear();
 					puppies.clear();
@@ -119,12 +130,14 @@ void Level::checkCollisions()
 					necromancers.clear();
 					portals.clear();
 					init();
-					m_state->getPlayer()->init();
-				}
-				else {
-					won = true;
-				}
-				
+					m_state->getPlayer()->init();			
+	
+			}
+		}
+		for (auto& c : coins) {
+			if (player->intersect(*c)) {
+				coins.clear();
+				won = true;
 			}
 		}
 		for (auto& g : guardians) {
@@ -183,6 +196,9 @@ void Level::update(float ms)
 		}
 		for (auto& c : coins) {
 			c->update(ms);
+		}
+		for (auto& l : levers) {
+			l->update(ms);
 		}
 		int c = 0;
 		puppies.erase(std::remove_if(puppies.begin(), puppies.end(),
@@ -253,6 +269,9 @@ void Level::draw()
 	for (auto& c : coins) {
 		c->draw();
 	}
+	for (auto& l : levers) {
+		l->draw();
+	}
 	drawScore();
 
  
@@ -281,6 +300,11 @@ void Level::draw()
 		graphics::drawRect(offset_x, offset_y, 2.0f * w, 4.0f * w, m_brush_background);
 	}
 	else if (won) {
+		if (!winsound) {
+			graphics::stopMusic();
+			graphics::playSound("assets\\win.mp3", 0.5f, false);
+			winsound = true;
+		}
 		graphics::Brush br_end;
 		br_end.outline_opacity = 0.0f;
 		br_end.fill_opacity = 1.0f;
@@ -504,7 +528,6 @@ void Level::init()
 		}
 		m_blocks.push_back(Box(-2.0f, 13.0f, 1.0f, 1.0f));
 		m_blocks.push_back(Box(-2.0f, 11.0f, 1.0f, 1.0f));
-		m_blocks.push_back(Box(-2.0f, 9.0f, 1.0f, 1.0f));
 		m_blocks.push_back(Box(1.0f, 14.0f, 1.0f, 1.0f));
 		m_blocks.push_back(Box(2.0f, 14.0f, 1.0f, 1.0f));
 		m_blocks.push_back(Box(2.0f, 13.0f, 1.0f, 1.0f));
@@ -548,8 +571,10 @@ void Level::init()
 		guardians.push_back(std::make_unique<ImmortalGuardian>(-1.0f, 5.0f, 1.0f, 1.0f));
 		necromancers.push_back(std::make_unique<Necromancer>(-2.0f, 12.0f, 1.0f, 1.0f,true));
 		necromancers.push_back(std::make_unique<Necromancer>(-2.0f, 10.0f, 1.0f, 1.0f, true));
-		necromancers.push_back(std::make_unique<Necromancer>(-2.0f, 8.0f, 1.0f, 1.0f, true));
+		necromancers.push_back(std::make_unique<Necromancer>(2.0f, 0.0f, 1.0f, 1.0f, true));
+		health_packs.push_back(std::make_unique<HealthPack>(7.0f, 8.0f, 1.0f, 1.0f));
 		coins.push_back(std::make_unique<Coin>(-2.0f, 5.0f, 1.0f, 1.0f));
+		levers.push_back(std::make_unique<Lever>(1.0f, 0.0f, 1.0f, 1.0f));
 		puppies.push_back(std::make_unique<FlyingPuppy>(5.0f, 4.0f, 1.0f, 1.0f, false, 1.0f));
 		m_brush_block.outline_opacity = 0.0f;
 		m_brush_block_debug.fill_opacity = 0.1f;
@@ -577,6 +602,9 @@ void Level::init()
 	}
 	for (auto& c : coins) {
 		c->init();
+	}
+	for (auto& l : levers) {
+		l->init();
 	}
 	
 
