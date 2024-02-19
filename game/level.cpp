@@ -581,7 +581,7 @@ void Level::init()
 		necromancers.push_back(std::make_unique<Necromancer>(2.0f, 0.0f, 1.0f, 1.0f, true));
 		health_packs.push_back(std::make_unique<HealthPack>(7.0f, 8.0f, 1.0f, 1.0f));
 		coins.push_back(std::make_unique<Coin>(-2.0f, 5.0f, 1.0f, 1.0f));
-		levers.push_back(std::make_unique<Lever>(1.0f, 0.0f, 1.0f, 1.0f));
+		levers.push_back(std::make_unique<Lever>(1.0f, 0.2f, 1.0f, 1.0f));
 		puppies.push_back(std::make_unique<FlyingPuppy>(5.0f, 4.0f, 1.0f, 1.0f, false, 1.0f));
 		m_brush_block.outline_opacity = 0.0f;
 		m_brush_block_debug.fill_opacity = 0.1f;

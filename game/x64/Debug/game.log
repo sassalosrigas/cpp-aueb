@@ -1,4 +1,13 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  gamestate.cpp
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'gamestate.cpp')
+  
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gameobject.h(9,8): warning C4099: 'GameState': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'gamestate.cpp')
+  C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gamestate.h(7,8):
+  see declaration of 'GameState'
+  
   level.cpp
 C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
   (compiling source file 'level.cpp')
@@ -31,4 +40,33 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.3313
   	C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.cpp(413,31):
   	see reference to function template instantiation 'std::unique_ptr<Necromancer,std::default_delete<Necromancer>> std::make_unique<Necromancer,int,int,float,float,bool,0>(int &&,int &&,float &&,float &&,bool &&)' being compiled
   
+  player.cpp
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'player.cpp')
+  
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gameobject.h(9,8): warning C4099: 'GameState': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'player.cpp')
+  C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gamestate.h(7,8):
+  see declaration of 'GameState'
+  
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\player.cpp(82,24): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  projectile.cpp
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gameobject.h(9,8): warning C4099: 'GameState': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'projectile.cpp')
+  C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gamestate.h(7,8):
+  see declaration of 'GameState'
+  
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'projectile.cpp')
+  
+  ribbon.cpp
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gameobject.h(9,8): warning C4099: 'GameState': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'ribbon.cpp')
+  C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\gamestate.h(7,8):
+  see declaration of 'GameState'
+  
+C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\level.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'ribbon.cpp')
+  
+  Generating Code...
   game.vcxproj -> C:\Users\dodor\OneDrive\Υπολογιστής\ΔΟΜΕΣ ΔΕΔΟΜΕΝΩΝ\cpp-aueb\game\bin\game.exe

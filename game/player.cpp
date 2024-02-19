@@ -160,7 +160,7 @@ void Player::drawHealth() {
 	br_hb.fill_opacity = 1.0f;
 	br_hb.outline_opacity = 0.0f;
 	br_hb.texture = m_state->getFullAssetPath("healthbar.png");
-	graphics::drawRect(m_state->getCanvasWidth() * 0.5f - 2.0f, m_state->getCanvasHeight() * 0.5f - 2.0f, 1.2f, 0.5f, br_hb);
+	graphics::drawRect(m_state->getCanvasWidth() * 0.5f - 2.0f, m_state->getCanvasHeight() * 0.5f - 2.0f, 1.1f, 0.5f, br_hb);
 	
 }
 
